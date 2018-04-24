@@ -15,13 +15,15 @@ module.exports = function(router){
 		            // Check if user does exist, then compare password provided by user
 			        if (!req.params.password) {
 			            res.json({ success: false, message: 'No password provided' }); // Password was not provided
-			        } else {
+			        } else if (user.police_permission !== "user") {
+								 res.json({ success: false, message: 'You must be a police user to log in. ' }); // Password was not provided
+							} else {
 			            var validPassword = user.comparePassword(req.params.password); // Check if password matches password provided by user
 					        if (!validPassword) {
 					            res.json({ success: false, message: 'Could not authenticate password' }); // Password does not match password in database
 					        } else {
 					        	Police_User.findOne({police_username: req.params.username}, function(err, username){
-					          		return res.json({ success: true, username: username.police_username, police_id: username.id, police_station: username.police_station}); // Return token in JSON object to controller
+					          		return res.json({ success: true, username: username.police_username, police_id: username.id, police_station: username.police_station, police_permission: username.police_permission}); // Return token in JSON object to controller
 					       		});
 					        }
 					}
