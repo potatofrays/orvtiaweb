@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var validate = require('mongoose-validator'); // Import Mongoose Validator Plugin
 
 //people_involved Schema
 var peopleInvolvedSchema = new Schema({
@@ -8,7 +9,7 @@ var peopleInvolvedSchema = new Schema({
 	people_involved_gender : {type: String},
 	people_involved_citizenship : {type: String},
 	people_involved_status: {type: String},
-	people_involved_type: {type: String}
+	people_involved_type: {type: String, default: 'PENDING'}
 });
 
 //vehicle Schema

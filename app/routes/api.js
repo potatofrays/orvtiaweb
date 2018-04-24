@@ -3288,6 +3288,7 @@ module.exports = function(router) {
         if (req.body.people_involved_gender) var newPeopleInvolvedGender = req.body.people_involved_gender; // Check if a change to gender was requested
         if (req.body.people_involved_citizenship) var newPeopleInvolvedCitizenship = req.body.people_involved_citizenship; // Check if a change to citizenship was requested
         if (req.body.people_involved_status) var newPeopleInvolvedStatus = req.body.people_involved_status; // Check if a change to status was requested
+        if (req.body.people_involved_type) var newPeopleInvolvedType = req.body.people_involved_type; // Check if a change to type was requested
         // Look for logged in user in database to check if have appropriate access
         police_user.findOne({ police_username: req.decoded.police_username }, function(err, mainUser) {
             if (err) {
@@ -3544,9 +3545,343 @@ module.exports = function(router) {
                             res.json({ success: false, message: 'Insufficient Permissions' }); // Return error
                         }
                     }
-                  }
+                      // Check if a change to type was requested
+                    if (newPeopleInvolvedType) {
+                        // Check if person making changes has appropriate access
+                        if (mainUser.police_permission === 'main' || mainUser.police_permission === 'station') {
+                            // Look for people involved in database
+                            models.People_Involved.findOne({ _id: editPeopleInvolved }, function(err, people) {
+                                if (err) {
+                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                    var email = {
+                                        from: 'ORVTIA Team Staff, orvtiateam@zoho.com',
+                                        to: 'pnp@orvtia.com',
+                                        subject: 'Error Logged',
+                                        text: 'The following error has been reported in the MEAN Stack Application: ' + err,
+                                        html: 'The following error has been reported in the MEAN Stack Application:<br><br>' + err
+                                    };
+                                    // Function to send e-mail to myself
+                                    client.sendMail(email, function(err, info) {
+                                        if (err) {
+                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                        } else {
+                                            console.log(info); // Log success message to console if sent
+                                            console.log(user.email); // Display e-mail that it was sent to
+                                        }
+                                    });
+                                    res.json({ success: false, message: 'Something went wrong. This error has been logged and will be addressed by our staff. We apologize for this inconvenience!' });
+                                } else {
+                                    // Check if people involved is in database
+                                    if (!people) {
+                                        res.json({ success: false, message: 'No details found' }); // Return error
+                                    } else {
+                                        people.people_involved_type = newPeopleInvolvedType; // Save new type to people involved in database
+                                        // Save changes
+                                        people.save(function(err) {
+                                            if (err) {
+                                                console.log(err); // Log error to console
+                                            } else {
+                                                res.json({ success: true, message: 'Type of People Involved has been updated' }); // Return success
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        } else {
+                            res.json({ success: false, message: 'Insufficient Permissions' }); // Return error
+                        }
+                    }
+                }
               }
           });
+    });
+    // Route to get the vehicle details that needs to be edited
+    router.get('/editVehicle/:id', function(req, res) {
+      var editVehicle = req.params.id; // Assign the _id from parameters to variable
+      police_user.findOne({ police_username: req.decoded.police_username }, function(err, mainUser) {
+          if (err) {
+              // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+              var email = {
+                  from: 'ORVTIA Team Staff, orvtiateam@zoho.com',
+                  to: 'pnp@orvtia.com',
+                  subject: 'Error Logged',
+                  text: 'The following error has been reported in the MEAN Stack Application: ' + err,
+                  html: 'The following error has been reported in the MEAN Stack Application:<br><br>' + err
+              };
+              // Function to send e-mail to myself
+              client.sendMail(email, function(err, info) {
+                  if (err) {
+                      console.log(err); // If error with sending e-mail, log to console/terminal
+                  } else {
+                      console.log(info); // Log success message to console if sent
+                      console.log(user.email); // Display e-mail that it was sent to
+                  }
+              });
+              res.json({ success: false, message: 'Something went wrong. This error has been logged and will be addressed by our staff. We apologize for this inconvenience!' });
+          } else {
+              // Check if logged in user was found in database
+              if (!mainUser) {
+                  res.json({ success: false, message: 'No user found' }); // Return error
+              } else {
+                  // Check if logged in report has editing privileges
+                  if (mainUser.police_permission === 'main' || mainUser.police_permission === 'station') {
+                      // Find the user to be editted
+                      models.Vehicle.findOne({ _id: editVehicle }, function(err, vehicle) {
+                          if (err) {
+                              // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                              var email = {
+                                  from: 'ORVTIA Team Staff, orvtiateam@zoho.com',
+                                  to: 'pnp@orvtia.com',
+                                  subject: 'Error Logged',
+                                  text: 'The following error has been reported in the MEAN Stack Application: ' + err,
+                                  html: 'The following error has been reported in the MEAN Stack Application:<br><br>' + err
+                              };
+                              // Function to send e-mail to myself
+                              client.sendMail(email, function(err, info) {
+                                  if (err) {
+                                      console.log(err); // If error with sending e-mail, log to console/terminal
+                                  } else {
+                                      console.log(info); // Log success message to console if sent
+                                      console.log(user.email); // Display e-mail that it was sent to
+                                  }
+                              });
+                              res.json({ success: false, message: 'Something went wrong. This error has been logged and will be addressed by our staff. We apologize for this inconvenience!' });
+                          } else {
+                              // Check if vehicle to edit is in database
+                              if (!vehicle) {
+                                  res.json({ success: false, message: 'No user found' }); // Return error
+                              } else {
+                                  res.json({ success: true, vehicle: vehicle }); // Return the vehicle to be editted
+                              }
+                          }
+                      });
+                  } else {
+                      res.json({ success: false, message: 'Insufficient Permission' }); // Return access error
+                  }
+              }
+          }
+        });
+    });
+    // Route to update/edit a people involved details
+    router.put('/editVehicle', function(req, res) {
+      var editVehicle = req.body._id; // Assign _id from vehicle to be editted to a variable
+      if (req.body.vehicle_type) var newVehicleType = req.body.vehicle_type; // Check if a change to type of vehicle was requested
+      if (req.body.vehicle_platenumber) var newVehiclePlateNumber = req.body.vehicle_platenumber; // Check if a change to plate number was requested
+      if (req.body.vehicle_brand) var newVehicleBrand = req.body.vehicle_brand; // Check if a change to brand was requested
+      if (req.body.vehicle_model) var newVehicleModel = req.body.vehicle_model; // Check if a change to model was requested
+      // Look for logged in user in database to check if have appropriate access
+      police_user.findOne({ police_username: req.decoded.police_username }, function(err, mainUser) {
+          if (err) {
+              // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+              var email = {
+                  from: 'ORVTIA Team Staff, orvtiateam@zoho.com',
+                  to: 'pnp@orvtia.com',
+                  subject: 'Error Logged',
+                  text: 'The following error has been reported in the MEAN Stack Application: ' + err,
+                  html: 'The following error has been reported in the MEAN Stack Application:<br><br>' + err
+              };
+              // Function to send e-mail to myself
+              client.sendMail(email, function(err, info) {
+                  if (err) {
+                      console.log(err); // If error with sending e-mail, log to console/terminal
+                  } else {
+                      console.log(info); // Log success message to console if sent
+                      console.log(user.email); // Display e-mail that it was sent to
+                  }
+              });
+              res.json({ success: false, message: 'Something went wrong. This error has been logged and will be addressed by our staff. We apologize for this inconvenience!' });
+          } else {
+              // Check if logged in user is found in database
+              if (!mainUser) {
+                  res.json({ success: false, message: "no user found" }); // Return error
+              } else {
+                  // Check if a change to vehicle type was requested
+                  if (newVehicleType) {
+                      // Check if person making changes has appropriate access
+                      if (mainUser.police_permission === 'main' || mainUser.police_permission === 'station') {
+                          // Look for vehicle in database
+                          models.Vehicle.findOne({ _id: editVehicle }, function(err, vehicle) {
+                              if (err) {
+                                  // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                  var email = {
+                                      from: 'ORVTIA Team Staff, orvtiateam@zoho.com',
+                                      to: 'pnp@orvtia.com',
+                                      subject: 'Error Logged',
+                                      text: 'The following error has been reported in the MEAN Stack Application: ' + err,
+                                      html: 'The following error has been reported in the MEAN Stack Application:<br><br>' + err
+                                  };
+                                  // Function to send e-mail to myself
+                                  client.sendMail(email, function(err, info) {
+                                      if (err) {
+                                          console.log(err); // If error with sending e-mail, log to console/terminal
+                                      } else {
+                                          console.log(info); // Log success message to console if sent
+                                          console.log(user.email); // Display e-mail that it was sent to
+                                      }
+                                  });
+                                  res.json({ success: false, message: 'Something went wrong. This error has been logged and will be addressed by our staff. We apologize for this inconvenience!' });
+                              } else {
+                                  // Check if vehicle is in database
+                                  if (!vehicle) {
+                                      res.json({ success: false, message: 'No details found' }); // Return error
+                                  } else {
+                                      vehicle.vehicle_type = newVehicleType; // Assign new vehicle type to report in database
+                                      // Save changes
+                                      vehicle.save(function(err) {
+                                          if (err) {
+                                              console.log(err); // Log any errors to the console
+                                          } else {
+                                              res.json({ success: true, message: 'Vehicle Type has been updated' });
+                                          }
+                                      });
+                                  }
+                              }
+                          });
+                      } else {
+                          res.json({ success: false, message: 'Insufficient Permissions' }); // Return error
+                      }
+                  }
+                  // Check if a change to plate number was requested
+                  if (newVehiclePlateNumber) {
+                      // Check if person making changes has appropriate access
+                      if (mainUser.police_permission === 'main' || mainUser.police_permission === 'station') {
+                          // Look for Vehicle in database
+                          models.Vehicle.findOne({ _id: editVehicle }, function(err, vehicle) {
+                              if (err) {
+                                  // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                  var email = {
+                                      from: 'ORVTIA Team Staff, orvtiateam@zoho.com',
+                                      to: 'pnp@orvtia.com',
+                                      subject: 'Error Logged',
+                                      text: 'The following error has been reported in the MEAN Stack Application: ' + err,
+                                      html: 'The following error has been reported in the MEAN Stack Application:<br><br>' + err
+                                  };
+                                  // Function to send e-mail to myself
+                                  client.sendMail(email, function(err, info) {
+                                      if (err) {
+                                          console.log(err); // If error with sending e-mail, log to console/terminal
+                                      } else {
+                                          console.log(info); // Log success message to console if sent
+                                          console.log(user.email); // Display e-mail that it was sent to
+                                      }
+                                  });
+                                  res.json({ success: false, message: 'Something went wrong. This error has been logged and will be addressed by our staff. We apologize for this inconvenience!' });
+                              } else {
+                                  // Check if vehicle is in database
+                                  if (!vehicle) {
+                                      res.json({ success: false, message: 'No details found' }); // Return error
+                                  } else {
+                                      vehicle.vehicle_platenumber = newVehiclePlateNumber; // Assign new plate number to report in database
+                                      // Save changes
+                                      vehicle.save(function(err) {
+                                          if (err) {
+                                              console.log(err); // Log any errors to the console
+                                          } else {
+                                              res.json({ success: true, message: 'Vehicle Plate Number has been updated' });
+                                          }
+                                      });
+                                  }
+                              }
+                          });
+                      } else {
+                          res.json({ success: false, message: 'Insufficient Permissions' }); // Return error
+                      }
+                  }
+                  // Check if a change to brand was requested
+                  if (newVehicleBrand) {
+                      // Check if person making changes has appropriate access
+                      if (mainUser.police_permission === 'main' || mainUser.police_permission === 'station') {
+                          // Look for vehicle in database
+                          models.Vehicle.findOne({ _id: editVehicle }, function(err, vehicle) {
+                              if (err) {
+                                  // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                  var email = {
+                                      from: 'ORVTIA Team Staff, orvtiateam@zoho.com',
+                                      to: 'pnp@orvtia.com',
+                                      subject: 'Error Logged',
+                                      text: 'The following error has been reported in the MEAN Stack Application: ' + err,
+                                      html: 'The following error has been reported in the MEAN Stack Application:<br><br>' + err
+                                  };
+                                  // Function to send e-mail to myself
+                                  client.sendMail(email, function(err, info) {
+                                      if (err) {
+                                          console.log(err); // If error with sending e-mail, log to console/terminal
+                                      } else {
+                                          console.log(info); // Log success message to console if sent
+                                          console.log(user.email); // Display e-mail that it was sent to
+                                      }
+                                  });
+                                  res.json({ success: false, message: 'Something went wrong. This error has been logged and will be addressed by our staff. We apologize for this inconvenience!' });
+                              } else {
+                                  // Check if vehicle in database
+                                  if (!vehicle) {
+                                      res.json({ success: false, message: 'No details found' }); // Return error
+                                  } else {
+                                      vehicle.vehicle_brand = newVehicleBrand; // Assign new brand to report in database
+                                      // Save changes
+                                      vehicle.save(function(err) {
+                                          if (err) {
+                                              console.log(err); // Log any errors to the console
+                                          } else {
+                                              res.json({ success: true, message: 'Vehicle Brand has been updated' });
+                                          }
+                                      });
+                                  }
+                              }
+                          });
+                      } else {
+                          res.json({ success: false, message: 'Insufficient Permissions' }); // Return error
+                      }
+                  }
+                  // Check if a change to Model was requested
+                  if (newVehicleModel) {
+                      // Check if person making changes has appropriate access
+                      if (mainUser.police_permission === 'main' || mainUser.police_permission === 'station') {
+                          // Look for vehicle in database
+                          models.Vehicle.findOne({ _id: editVehicle }, function(err, vehicle) {
+                              if (err) {
+                                  // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                  var email = {
+                                      from: 'ORVTIA Team Staff, orvtiateam@zoho.com',
+                                      to: 'pnp@orvtia.com',
+                                      subject: 'Error Logged',
+                                      text: 'The following error has been reported in the MEAN Stack Application: ' + err,
+                                      html: 'The following error has been reported in the MEAN Stack Application:<br><br>' + err
+                                  };
+                                  // Function to send e-mail to myself
+                                  client.sendMail(email, function(err, info) {
+                                      if (err) {
+                                          console.log(err); // If error with sending e-mail, log to console/terminal
+                                      } else {
+                                          console.log(info); // Log success message to console if sent
+                                          console.log(user.email); // Display e-mail that it was sent to
+                                      }
+                                  });
+                                  res.json({ success: false, message: 'Something went wrong. This error has been logged and will be addressed by our staff. We apologize for this inconvenience!' });
+                              } else {
+                                  // Check if vehicle is in database
+                                  if (!vehicle) {
+                                      res.json({ success: false, message: 'No details found' }); // Return error
+                                  } else {
+                                      vehicle.vehicle_model = newVehicleModel; // Assign new Model to report in database
+                                      // Save changes
+                                      vehicle.save(function(err) {
+                                          if (err) {
+                                              console.log(err); // Log any errors to the console
+                                          } else {
+                                              res.json({ success: true, message: 'Vehicle model has been updated' });
+                                          }
+                                      });
+                                  }
+                              }
+                          });
+                      } else {
+                          res.json({ success: false, message: 'Insufficient Permissions' }); // Return error
+                      }
+                  }
+              }
+            }
+        });
     });
 
     return router; // Return the router object to server

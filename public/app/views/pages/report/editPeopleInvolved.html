@@ -12,23 +12,25 @@
 </a>
 <strong>/</strong>&nbsp;
 <a href="#">
-<strong>EDIT</strong></label>
+<strong>EDIT PEOPLE INVOLVED DETAILS</strong></label>
 </a>
 <br>
 <br>
 <!-- Bootstrap Navigation Tabs -->
 <div class="tabs-wrapper">
     <ul class="nav classic-tabs tabs-grey nav-sm">
-      <!-- Committed Tab -->
+      <!-- Name Tab -->
       <li role="presentation" ng-click="editPeopleInvolved.namePhase();" ng-class="nameTab"><a href="#">Name</a></li>
-      <!-- Accident Type Tab -->
+      <!-- Age Tab -->
       <li role="presentation" ng-click="editPeopleInvolved.agePhase();" ng-class="ageTab"><a href="">Age</a></li>
-      <!-- Accident Cause Tab -->
+      <!-- Gender Tab -->
       <li role="presentation" ng-click="editPeopleInvolved.genderPhase();" ng-class="genderTab"><a href="#">Gender</a></li>
-      <!-- Accident Cause Tab -->
+      <!-- Citizenship Tab -->
       <li role="presentation" ng-click="editPeopleInvolved.citizenshipPhase();" ng-class="citizenshipTab"><a href="#">Citizenship</a></li>
-      <!-- Accident Cause Tab -->
+      <!-- Status Tab -->
       <li role="presentation" ng-click="editPeopleInvolved.statusPhase();" ng-class="statusTab"><a href="#">Status</a></li>
+      <!-- Type Tab -->
+      <li role="presentation" ng-click="editPeopleInvolved.typePhase();" ng-class="typeTab"><a href="#">Type of People Involved</a></li>
 
     <!-- Bootstrap Navigation Tabs -->
 </div>
@@ -99,6 +101,22 @@
                       <option value="Hospitalized">Hospitalized</option>
                       <option value="Injured">Injured</option>
                       <option value="Died">Died</option>
+                    </select>
+                </div>
+            </div>
+          </div>
+            <br>
+              <button ng-disabled="editPeopleInvolved.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+    <form name="editPeopleInvolved.typeForm" ng-show="editPeopleInvolved.phase6" ng-submit="editPeopleInvolved.updateType(newPeopleInvolvedType, editPeopleInvolved.typeForm.people_involved_type.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <select name="people_involved_type" ng-model="newPeopleInvolvedType" class="browser-default">
+                      <option value="" disabled selected>Type of People Involved</option>
+                      <option value="PENDING">PENDING</option>
+                      <option value="Suspect">SUSPECT</option>
+                      <option value="Victim">VICTIM</option>
                     </select>
                 </div>
             </div>

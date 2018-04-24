@@ -18,13 +18,21 @@ angular.module('reportServices', [])
     reportFactory.editReport = function(id) {
         return $http.put('/api/editReport', id);
     };
-    // Get police report to then edit
+    // Get people involved to then edit
     reportFactory.getPeopleInvolved = function(id) {
         return $http.get('/api/editPeopleInvolved/' + id);
     };
-    // Edit a police report
+    // Edit a  people involved
     reportFactory.editPeopleInvolved = function(id) {
         return $http.put('/api/editPeopleInvolved', id);
+    };
+    // Get vehicle to then edit
+    reportFactory.getVehicle = function(id) {
+        return $http.get('/api/editVehicle/' + id);
+    };
+    // Edit a vehicle
+    reportFactory.editVehicle = function(id) {
+        return $http.put('/api/editVehicle', id);
     };
 
       return reportFactory; // Return reportFactory object

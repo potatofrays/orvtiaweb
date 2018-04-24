@@ -12,50 +12,6 @@ angular.module('reportManagementController', ['reportServices'])
     app.searchLimit = 0; // Set the default search page results limit to zero
     app.viewLoginBtn = false;
 
-/*
-    // Function: get all the reports from database
-    function getReports() {
-        // Runs function to get all the reports from database
-        Report.getReports().then(function(data) {
-            // Check if able to get data from database
-            if (data.data.success) {
-                // Check which permissions the logged in report has
-                if (data.data.police_permission === 'main' || data.data.police_permission === 'station') {
-                    app.police_reports = data.data.police_reports; // Assign reports from database to variable
-                    app.loading = false; // Stop loading icon
-                    app.accessDenied = false; // Show table
-                    app.viewLoginBtn = false;
-                    // Check if logged in report is an admin or moderator
-                    if (data.data.police_permission === 'main') {
-                        app.addWalkInAccess = false;
-                        app.permissionAccess = true;
-                        app.stationAccess = true;
-                        app.mainAccess = true
-                        app.viewAccess = true;
-                        app.viewLoginBtn = false;
-                    } else if (data.data.police_permission === 'station') {
-                        app.addWalkInAccess = true;
-                        app.editReportAccess = true; // Show edit button
-                        app.permissionAccess = false;
-                        app.viewAccess = false;
-                        app.userAccess = true;
-                        app.viewLoginBtn = false;
-                        app.generateReportAccess = true;
-                    }
-                } else {
-                    app.errorMsg = 'Insufficient Permissions'; // Reject edit and delete options
-                    app.loading = false; // Stop loading icon
-                }
-            } else {
-                app.errorMsg = data.data.message; // Set error message
-                app.loading = false; // Stop loading icon
-            }
-        });
-    }
-
-    getReports(); // Invoke function to get reports from databases
-*/
-
       function getFind(){
       Report.getFind().then(function(data){
          if (data.data.success) {
@@ -306,6 +262,7 @@ angular.module('reportManagementController', ['reportServices'])
             $scope.newPeopleInvolvedGender = data.data.people.people_involved_gender; // Display gender in scope
             $scope.newPeopleInvolvedCitizenship = data.data.people.people_involved_citizenship; // Display citizenship in scope
             $scope.newPeopleInvolvedStatus = data.data.people.people_involved_status; // Display status in scope
+            $scope.newPeopleInvolvedType = data.data.people.people_involved_type; // Display type in scope
             app.currentReport = data.data.people._id; // Get report's _id for update functions
         } else {
             app.errorMsg = data.data.message; // Set error message
@@ -320,11 +277,13 @@ angular.module('reportManagementController', ['reportServices'])
       $scope.genderTab = 'default'; // CLear gender list to active
       $scope.citizenshipTab = 'default'; // CLear citizenship list to active
       $scope.statusTab = 'default'; // CLear status list to active
+      $scope.typeTab = 'default'; // CLear type list to active
       app.phase1 = true; // Set name tab to active
       app.phase2 = false; // Set age tab to inactive
       app.phase3 = false; // Set gender tab to inactive
       app.phase4 = false; // Set citizenship tab to inactive
       app.phase5 = false; // Set status tab to inactive
+      app.phase6 = false; // Set type tab to inactive
       app.errorMsg = false; // CLear error message
     };
     // Function: Set the accident type pill to active
@@ -334,11 +293,13 @@ angular.module('reportManagementController', ['reportServices'])
       $scope.genderTab = 'default'; // CLear gender list to active
       $scope.citizenshipTab = 'default'; // CLear citizenship list to active
       $scope.statusTab = 'default'; // CLear status list to active
+      $scope.typeTab = 'default'; // CLear type list to active
       app.phase1 = false; // Set name tab to inactive
       app.phase2 = true; // Set age tab to active
       app.phase3 = false; // Set gender tab to inactive
       app.phase4 = false; // Set citizenship tab to inactive
       app.phase5 = false; // Set status tab to inactive
+      app.phase6 = false; // Set type tab to inactive
       app.errorMsg = false; // CLear error message
     };
     // Function: Set the accident type pill to active
@@ -348,11 +309,13 @@ angular.module('reportManagementController', ['reportServices'])
       $scope.genderTab = 'active'; // Set gender class
       $scope.citizenshipTab = 'default'; // CLear citizenship list to active
       $scope.statusTab = 'default'; // CLear status list to active
+      $scope.typeTab = 'default'; // CLear type list to active
       app.phase1 = false; // Set name tab to inactive
       app.phase2 = false; // Set age tab to inactive
       app.phase3 = true; // Set gender tab to active
       app.phase4 = false; // Set citizenship tab to inactive
       app.phase5 = false; // Set status tab to inactive
+      app.phase6 = false; // Set type tab to inactive
       app.errorMsg = false; // CLear error message
     };
     // Function: Set the accident type pill to active
@@ -362,11 +325,13 @@ angular.module('reportManagementController', ['reportServices'])
       $scope.genderTab = 'default'; // CLear gender list to active
       $scope.citizenshipTab = 'active'; //Set citizenship class
       $scope.statusTab = 'default'; // CLear status list to active
+      $scope.typeTab = 'default'; // CLear type list to active
       app.phase1 = false; // Set name tab to inactive
       app.phase2 = false; // Set age tab to inactive
       app.phase3 = false; // Set gender tab to inactive
       app.phase4 = true; // Set citizenship tab to active
       app.phase5 = false; // Set status tab to inactive
+      app.phase6 = false; // Set type tab to inactive
       app.errorMsg = false; // CLear error message
     };
     // Function: Set the accident type pill to active
@@ -376,11 +341,29 @@ angular.module('reportManagementController', ['reportServices'])
       $scope.genderTab = 'default'; // CLear gender list to active
       $scope.citizenshipTab = 'default'; // CLear citizenship list to active
       $scope.statusTab = 'active'; // Set status class
+      $scope.typeTab = 'default'; // CLear type list to active
       app.phase1 = false; // Set name tab to inactive
       app.phase2 = false; // Set age tab to inactive
       app.phase3 = false; // Set gender tab to inactive
       app.phase4 = false; // Set citizenship tab to inactive
       app.phase5 = true; // Set status tab to active
+      app.phase6 = false; // Set type tab to inactive
+      app.errorMsg = false; // CLear error message
+    };
+    // Function: Set the accident type pill to active
+    app.typePhase = function() {
+      $scope.nameTab = 'default'; // Clear name list to active
+      $scope.ageTab = 'default'; // CLear age list to active
+      $scope.genderTab = 'default'; // CLear gender list to active
+      $scope.citizenshipTab = 'default'; // CLear citizenship list to active
+      $scope.statusTab = 'default'; // CLear status list to active
+      $scope.typeTab = 'active'; // Set type class
+      app.phase1 = false; // Set name tab to inactive
+      app.phase2 = false; // Set age tab to inactive
+      app.phase3 = false; // Set gender tab to inactive
+      app.phase4 = false; // Set citizenship tab to inactive
+      app.phase5 = false; // Set status tab to inactive
+      app.phase6 = true; // Set type tab to inactive
       app.errorMsg = false; // CLear error message
     };
     // Function: Update the name
@@ -538,6 +521,247 @@ angular.module('reportManagementController', ['reportServices'])
                     $timeout(function() {
                         app.statusForm.people_involved_status.$setPristine(); // Reset status form
                         app.statusForm.people_involved_status.$setUntouched(); // Reset status form
+                        app.successMsg = false; // Clear success message
+                        app.disabled = false; // Enable form for editing
+                    }, 2000);
+                } else {
+                    $scope.alert = 'alert alert-danger'; // Set class for message
+                    app.errorMsg = data.data.message; // Clear any error messages
+                    app.disabled = false; // Enable form for editing
+                }
+            });
+        } else {
+            $scope.alert = 'alert alert-danger'; // Set class for message
+            app.errorMsg = 'Please ensure form is filled out properly'; // Set error message
+            app.disabled = false; // Enable form for editing
+        }
+    };
+    // Function: Update the type
+    app.updateType = function(newPeopleInvolvedType, valid) {
+        app.errorMsg = false; // Clear any error messages
+        app.disabled = true; // Disable form while processing
+        // Check if the Type form being submitted is valid
+        if (valid) {
+            var userObject = {}; // Create a report object to pass to function
+            userObject._id = app.currentReport; // Get _id to search database
+            userObject.people_involved_type = $scope.newPeopleInvolvedType; // Set the new type to the people involved
+            // Runs function to update the type
+            Report.editPeopleInvolved(userObject).then(function(data) {
+                // Check if able to edit the type
+                if (data.data.success) {
+                    $scope.alert = 'alert alert-success'; // Set class for message
+                    app.successMsg = data.data.message; // Set success message
+                    // Function: After two seconds, clear and re-enable
+                    $timeout(function() {
+                        app.typeForm.people_involved_type.$setPristine(); // Reset type form
+                        app.typeForm.people_involved_type.$setUntouched(); // Reset type form
+                        app.successMsg = false; // Clear success message
+                        app.disabled = false; // Enable form for editing
+                    }, 2000);
+                } else {
+                    $scope.alert = 'alert alert-danger'; // Set class for message
+                    app.errorMsg = data.data.message; // Clear any error messages
+                    app.disabled = false; // Enable form for editing
+                }
+            });
+        } else {
+            $scope.alert = 'alert alert-danger'; // Set class for message
+            app.errorMsg = 'Please ensure form is filled out properly'; // Set error message
+            app.disabled = false; // Enable form for editing
+        }
+    };
+
+})
+// Controller: Used to edit reports
+.controller('editVehicleCtrl', function($scope, $routeParams, Report, $timeout) {
+    var app = this;
+    $scope.typeTab = 'active'; // Set the type tab to the default active tab
+    app.phase1 = true; // Set the type tab to default view
+    // Function: get the people involved that needs to be edited
+    Report.getVehicle($routeParams.id).then(function(data) {
+        // Check if the people involve's _id was found in database
+        if (data.data.success) {
+            $scope.newVehicleType = data.data.vehicle.vehicle_type; // Display name in scope
+            $scope.newVehiclePlateNumber = data.data.vehicle.vehicle_platenumber; // Display age in scope
+            $scope.newVehicleBrand = data.data.vehicle.vehicle_brand;// Display gender in scope
+            $scope.newVehicleModel = data.data.vehicle.vehicle_model;// Display citizenship in scope
+            app.currentReport = data.data.vehicle._id; // Get report's _id for update functions
+        } else {
+            app.errorMsg = data.data.message; // Set error message
+            $scope.alert = 'alert alert-danger'; // Set class for message
+        }
+    });
+
+    // Function: Set the type pill to active
+    app.typePhase = function() {
+      $scope.typeTab = 'active'; // Set type class
+      $scope.plateNumberTab = 'default'; // CLear plate number list to active
+      $scope.brandTab = 'default'; // CLear brand list to active
+      $scope.modelTab = 'default'; // CLear model list to active
+      app.phase1 = true; // Set type tab to active
+      app.phase2 = false; // Set plate number tab to inactive
+      app.phase3 = false; // Set brand tab to inactive
+      app.phase4 = false; // Set model tab to inactive
+      app.errorMsg = false; // CLear error message
+    };
+    // Function: Set the type pill to active
+    app.plateNumberPhase = function() {
+      $scope.typeTab = 'default'; // CLear type list to active
+      $scope.plateNumberTab = 'active'; // Set plate number class
+      $scope.brandTab = 'default'; // CLear brand list to active
+      $scope.modelTab = 'default'; // CLear model list to active
+      app.phase1 = false; // Set type tab to inactive
+      app.phase2 = true; // Set plate number tab to active
+      app.phase3 = false; // Set brand tab to inactive
+      app.phase4 = false; // Set model tab to inactive
+      app.errorMsg = false; // CLear error message
+    };
+    // Function: Set the brand pill to active
+    app.brandPhase = function() {
+      $scope.typeTab = 'default'; // CLear type list to active
+      $scope.plateNumberTab = 'default'; // CLear plate number list to active
+      $scope.brandTab = 'active'; // Set brand class
+      $scope.modelTab = 'default'; // CLear model list to active
+      app.phase1 = false; // Set type tab to inactive
+      app.phase2 = false; // Set plate number tab to inactive
+      app.phase3 = true; // Set brand tab to active
+      app.phase4 = false; // Set model tab to inactive
+      app.errorMsg = false; // CLear error message
+    };
+    // Function: Set the model pill to active
+    app.modelPhase = function() {
+      $scope.typeTab = 'default'; // CLear type list to active
+      $scope.plateNumberTab = 'default'; // CLear plate number list to active
+      $scope.brandTab = 'default'; // CLear brand list to active
+      $scope.modelTab = 'active'; // Set model class
+      app.phase1 = false; // Set type tab to inactive
+      app.phase2 = false; // Set plate number tab to inactive
+      app.phase3 = false; // Set brand tab to inactive
+      app.phase4 = true; // Set model tab to active
+      app.errorMsg = false; // CLear error message
+    };
+
+    // Function: Update the type
+    app.updateType = function(newVehicleType, valid) {
+        app.errorMsg = false; // Clear any error messages
+        app.disabled = true; // Disable form while processing
+        // Check if the Type being submitted is valid
+        if (valid) {
+            var userObject = {}; // Create a vehicle object to pass to function
+            userObject._id = app.currentReport; // Get _id to search database
+            userObject.vehicle_type = $scope.newVehicleType; // Set the new type to the report
+            // Runs function to update the name
+            Report.editVehicle(userObject).then(function(data) {
+                // Check if able to edit the name
+                if (data.data.success) {
+                    $scope.alert = 'alert alert-success'; // Set class for message
+                    app.successMsg = data.data.message; // Set success message
+                    // Function: After two seconds, clear and re-enable
+                    $timeout(function() {
+                        app.typeForm.vehicle_type.$setPristine(); // Reset type form
+                        app.typeForm.vehicle_type.$setUntouched(); // Reset type form
+                        app.successMsg = false; // Clear success message
+                        app.disabled = false; // Enable form for editing
+                    }, 2000);
+                } else {
+                    $scope.alert = 'alert alert-danger'; // Set class for message
+                    app.errorMsg = data.data.message; // Clear any error messages
+                    app.disabled = false; // Enable form for editing
+                }
+            });
+        } else {
+            $scope.alert = 'alert alert-danger'; // Set class for message
+            app.errorMsg = 'Please ensure form is filled out properly'; // Set error message
+            app.disabled = false; // Enable form for editing
+        }
+    };
+    // Function: Update the Plate Number
+    app.updatePlateNumber = function(newVehiclePlateNumber, valid) {
+        app.errorMsg = false; // Clear any error messages
+        app.disabled = true; // Disable form while processing
+        // Check if the plate number being submitted is valid
+        if (valid) {
+            var userObject = {}; // Create a vehicle object to pass to function
+            userObject._id = app.currentReport; // Get _id to search database
+            userObject.vehicle_platenumber = $scope.newVehiclePlateNumber; // Set the new type to the report
+            // Runs function to update the  plate number
+            Report.editVehicle(userObject).then(function(data) {
+                // Check if able to edit the  plate number
+                if (data.data.success) {
+                    $scope.alert = 'alert alert-success'; // Set class for message
+                    app.successMsg = data.data.message; // Set success message
+                    // Function: After two seconds, clear and re-enable
+                    $timeout(function() {
+                        app.plateNumberForm.vehicle_platenumber.$setPristine(); // Reset  plate number form
+                        app.plateNumberForm.vehicle_platenumber.$setUntouched(); // Reset  plate number form
+                        app.successMsg = false; // Clear success message
+                        app.disabled = false; // Enable form for editing
+                    }, 2000);
+                } else {
+                    $scope.alert = 'alert alert-danger'; // Set class for message
+                    app.errorMsg = data.data.message; // Clear any error messages
+                    app.disabled = false; // Enable form for editing
+                }
+            });
+        } else {
+            $scope.alert = 'alert alert-danger'; // Set class for message
+            app.errorMsg = 'Please ensure form is filled out properly'; // Set error message
+            app.disabled = false; // Enable form for editing
+        }
+    };
+    // Function: Update the Brand
+    app.updateBrand = function(newVehicleBrand, valid) {
+        app.errorMsg = false; // Clear any error messages
+        app.disabled = true; // Disable form while processing
+        // Check if the Brand being submitted is valid
+        if (valid) {
+            var userObject = {}; // Create a vehicle object to pass to function
+            userObject._id = app.currentReport; // Get _id to search database
+            userObject.vehicle_brand = $scope.newVehicleBrand; // Set the new Brand to the report
+            // Runs function to update the Brand
+            Report.editVehicle(userObject).then(function(data) {
+                // Check if able to edit the Brand
+                if (data.data.success) {
+                    $scope.alert = 'alert alert-success'; // Set class for message
+                    app.successMsg = data.data.message; // Set success message
+                    // Function: After two seconds, clear and re-enable
+                    $timeout(function() {
+                        app.brandForm.vehicle_brand.$setPristine(); // Reset Brand form
+                        app.brandForm.vehicle_brand.$setUntouched(); // Reset Brand form
+                        app.successMsg = false; // Clear success message
+                        app.disabled = false; // Enable form for editing
+                    }, 2000);
+                } else {
+                    $scope.alert = 'alert alert-danger'; // Set class for message
+                    app.errorMsg = data.data.message; // Clear any error messages
+                    app.disabled = false; // Enable form for editing
+                }
+            });
+        } else {
+            $scope.alert = 'alert alert-danger'; // Set class for message
+            app.errorMsg = 'Please ensure form is filled out properly'; // Set error message
+            app.disabled = false; // Enable form for editing
+        }
+    };
+    // Function: Update the Model
+    app.updateModel = function(newVehicleModel, valid) {
+        app.errorMsg = false; // Clear any error messages
+        app.disabled = true; // Disable form while processing
+        // Check if the Model being submitted is valid
+        if (valid) {
+            var userObject = {}; // Create a vehicle object to pass to function
+            userObject._id = app.currentReport; // Get _id to search database
+            userObject.vehicle_model = $scope.newVehicleModel; // Set the new Model to the report
+            // Runs function to update the Model
+            Report.editVehicle(userObject).then(function(data) {
+                // Check if able to edit the Model
+                if (data.data.success) {
+                    $scope.alert = 'alert alert-success'; // Set class for message
+                    app.successMsg = data.data.message; // Set success message
+                    // Function: After two seconds, clear and re-enable
+                    $timeout(function() {
+                        app.modelForm.vehicle_model.$setPristine(); // Reset Model form
+                        app.modelForm.vehicle_model.$setUntouched(); // Reset Model form
                         app.successMsg = false; // Clear success message
                         app.disabled = false; // Enable form for editing
                     }, 2000);

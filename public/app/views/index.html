@@ -84,7 +84,7 @@
                           <ul>
                               <li><a ng-show="main.isLoggedIn && main.authorized" href="/management" class="waves-effect">Police User Management</a>
                               </li>
-                              <li><a ng-show="main.isLoggedIn"  href="#" class="waves-effect">Citizens Management</a>
+                              <li><a ng-show="main.isLoggedIn && main.authorized"  href="#" class="waves-effect">Citizens Management</a>
                               </li>
                           </ul>
                       </div>
@@ -92,9 +92,9 @@
                   <li><a class="collapsible-header waves-effect arrow-r" ng-show="main.isLoggedIn"><i class="fa fa-folder"></i> Manage Reports<i class="fa fa-angle-down rotate-icon"></i></a>
                       <div class="collapsible-body">
                           <ul>
-                              <li><a ng-show="main.isLoggedIn" href="/reportManagement" class="waves-effect">Police Reports</a>
+                              <li><a ng-show="main.isLoggedIn && main.authorized" href="/reportManagement" class="waves-effect">Police Reports</a>
                               </li>
-                              <li><a ng-show="main.isLoggedIn" href="/citizenReportManagement" class="waves-effect">Citizen Reports</a>
+                              <li><a ng-show="main.isLoggedIn && main.authorized" href="/citizenReportManagement" class="waves-effect">Citizen Reports</a>
                               </li>
                           </ul>
                       </div>

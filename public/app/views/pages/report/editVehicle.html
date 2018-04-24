@@ -1,0 +1,102 @@
+
+<!-- Heading -->
+<div class=" text-center">
+      <br>
+      <p class="h5 text-center mb-4">ORVTIA WEB SERVER (EDIT VEHICLE DETAILS)</p>
+</div>
+<!-- Heading -->
+
+<br>
+<a href="/reportManagement">
+  <strong>REPORT MANAGEMENT</strong></label>
+</a>
+<strong>/</strong>&nbsp;
+<a href="#">
+<strong>EDIT VEHICLE DETAILS</strong></label>
+</a>
+<br>
+<br>
+<!-- Bootstrap Navigation Tabs -->
+<div class="tabs-wrapper">
+    <ul class="nav classic-tabs tabs-grey nav-sm">
+      <!-- Type Tab -->
+      <li role="presentation" ng-click="editVehicle.typePhase();" ng-class="typeTab"><a href="#">Type of Vehicle</a></li>
+      <!-- Plate Number Tab -->
+      <li role="presentation" ng-click="editVehicle.plateNumberPhase();" ng-class="plateNumberTab"><a href="">Plate Number</a></li>
+      <!-- Brand Tab -->
+      <li role="presentation" ng-click="editVehicle.brandPhase();" ng-class="brandTab"><a href="#">Brand</a></li>
+      <!-- Model Tab -->
+      <li role="presentation" ng-click="editVehicle.modelPhase();" ng-class="modelTab"><a href="#">Model</a></li>
+
+    <!-- Bootstrap Navigation Tabs -->
+</div>
+
+<div class="tab-content card tab-content-sm" role="tablist">
+  <div class="show-hide-message center-block" ng-show="editVehicle.successMsg">
+   <div class="alert alert-success center-block">{{editVehicle.successMsg}}</div>
+  </div>
+  <div class="show-hide-message center-block" ng-show="editVehicle.errorMsg">
+      <div class="alert alert-danger">{{ editVehicle.errorMsg }}</div>
+  </div>
+  <div class="md-form form-sm">
+    <form name="editVehicle.typeForm" ng-show="editVehicle.phase1" ng-submit="editVehicle.updateType(newVehicleType, editVehicle.typeForm.vehicle_type.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                  <select name="vehicle_type" ng-model="newVehicleType" class="browser-default">
+                    <option value="" disabled selected>Vehicle Type</option>
+                    <option value="Bus">Bus</option>
+                    <option value="Bicycle">Bicycle</option>
+                    <option value="Car">Car</option>
+                    <option value="Jeep">Jeep</option>
+                    <option value="Motorcycle">Motorcycle</option>
+                    <option value="Tricycle">Tricycle</option>
+                    <option value="Truck">Truck</option>
+                    <option value="Van">Van</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <br>
+            <button ng-disabled="editVehicle.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+    <form name="editVehicle.plateNumberForm" ng-show="editVehicle.phase2" ng-submit="editVehicle.updatePlateNumber(newVehiclePlateNumber, editVehicle.plateNumberForm.vehicle_platenumber.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                   <input ng-model="newVehiclePlateNumber" ng-pattern="^[A-Z]{1,3}-[0-9]{1,4}$" ng-minlength="7" ng-maxlength="8" class="form-control" name="vehicle_platenumber" type="text">
+                   <ul ng-show="(!editVehicle.plateNumberForm.vehicle_platenumber.$pristine && editVehicle.plateNumberForm.vehicle_platenumber.$error.pattern) || (!editVehicle.plateNumberForm.vehicle_platenumber.$pristine && editVehicle.plateNumberForm.vehicle_platenumber.$error.minlength) || (!editVehicle.vehicle_platenumber.$pristine && editVehicle.plateNumberForm.vehicle_platenumber.$error.maxlength)" class="help-block" style="color: red; font-size: 13px;">
+                       <li>Must not contain any special characters or spaces</li>
+                       <li>Must be at least 7 characters but no more than 8</li>
+                   </ul>
+                </div>
+              </div>
+            </div>
+            <br>
+            <button ng-disabled="editVehicle.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+    <form name="editVehicle.brandForm" ng-show="editVehicle.phase3" ng-submit="editVehicle.updateBrand(newVehicleBrand, editVehicle.brandForm.vehicle_brand.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                   <input ng-model="newVehicleBrand" class="form-control" name="vehicle_brand" type="text">
+                </div>
+            </div>
+          </div>
+            <br>
+              <button ng-disabled="editVehicle.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+    <form name="editVehicle.modelForm" ng-show="editVehicle.phase4" ng-submit="editVehicle.updateModel(newVehicleModel, editVehicle.modelForm.vehicle_model.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                   <input ng-model="newVehicleModel" class="form-control" name="vehicle_model" type="text">
+                </div>
+            </div>
+          </div>
+            <br>
+              <button ng-disabled="editVehicle.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+  </div>
+</div>
+<br>

@@ -63,9 +63,9 @@
       <td>{{report.accident_type}}</td>
       <td>{{report.accident_cause}}</td>
       <td><p ng-repeat="people in report.people_involved_id">
-      <a href="/editPeopleInvolved/{{people._id}}">{{people.people_involved_name}}</a>
-      <button type="button" data-toggle="modal" class="btn btn-sm btn-yellow" data-target="#modalPeople">VIEW</button><p><br></td>
-      <td><p ng-repeat="vehicle in report.vehicle_id"><a href="/editVehicle/{{vehicle._id}}">{{vehicle.vehicle_type}}</a><p><br></td>
+      <a href="/editPeopleInvolved/{{people._id}}"><strong>[ {{people.people_involved_name}}
+      <label style="color: red;">{{people.people_involved_type}}</label> ]</a><p></td>
+      <td><p ng-repeat="vehicle in report.vehicle_id"><a href="/editVehicle/{{vehicle._id}}">{{vehicle.vehicle_type}}</strong></a><p><br></td>
       <td>{{report.address_thoroughfare}}</td>
       <td>{{report.address_municipality}}</td>
       <td>{{report.police_username}}</td>
@@ -80,38 +80,4 @@
 		</tr>
 	</table>
   <br>
-<!-- Modal -->
-<div class="modal fade" id="modalPeople" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-              <table class="table table-hover table-bordered">
-            	<thead class="yellow lighten-4">
-            		<tr><strong>
-            			<th><strong>Name</strong></th>
-            			<th><strong>Age</strong></th>
-                  <th><strong>Gender</strong></th>
-                  <th><strong>Citizenship</strong></th>
-                  <th><strong>Status</strong></th>
-            		</tr>
-            	</thead>
-            		<tr ng-repeat = "report in reportManagement.police_reports | filter: searchFilter | orderBy: 'createdAt': true " >
-                  <td><p ng-repeat="people in report.people_involved_id">{{people.people_involved_name}} | {{people.people_involved_age}}</p><br></td>
-            		</tr>
-            	</table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 </div>
