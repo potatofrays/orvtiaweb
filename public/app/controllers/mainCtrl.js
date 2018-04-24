@@ -142,7 +142,6 @@ angular.module('mainController', ['authServices', 'userServices'])
                     checkLoginStatus = data.data.police_username;
                     app.police_email = data.data.police_email; // Get the user e-mail for us ein index
                     app.police_station = data.data.police_station;
-                    app.police_permission = data.data.police_permission;
                     User.getPermission().then(function(data) {
                         if (data.data.police_permission === 'main' || data.data.police_permission === 'station') {
                             app.authorized = true; // Set user's current permission to allow management
