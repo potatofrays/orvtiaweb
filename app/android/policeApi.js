@@ -20,7 +20,7 @@ module.exports = function(router){
 					        if (!validPassword) {
 					            res.json({ success: false, message: 'Could not authenticate password' }); // Password does not match password in database
 					        } else {
-					        	Police_User.findOne({police_username: req.params.username, police_permission: 'user'}, function(err, username){
+					        	Police_User.findOne({police_username: req.params.username},{police_permission: 'user'}, function(err, username){
 					          		return res.json({ success: true, username: username.police_username, police_id: username.id, police_station: username.police_stati}); // Return token in JSON object to controller
 					       		});
 					        }

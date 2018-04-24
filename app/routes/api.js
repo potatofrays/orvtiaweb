@@ -273,8 +273,8 @@ module.exports = function(router) {
                                 from: 'ORVTIA Team Staff, orvtiateam@zoho.com',
                                 to: user.police_email,
                                 subject: 'Reset Password Request',
-                                text: 'Hello ' + user.police_name + ', You recently request a password reset link. Please click on the link below to reset your password:<br><br><a href="http://orvtiawebserver.herokuapp.com/reset/' + user.resettoken,
-                                html: 'Hello<strong> ' + user.police_name + '</strong>,<br><br>You recently request a password reset link. Please click on the link below to reset your password:<br><br><a href="http://orvtiawebserver.herokuapp.com/reset/' + user.resettoken + '">http://orvtiawebserver.herokuapp.com/reset/</a>'
+                                text: 'Hello ' + user.police_name + ', You recently request a password reset link. Please click on the link below to reset your password:<br><br><a href="http://orvtiaweb.herokuapp.com/reset/' + user.resettoken,
+                                html: 'Hello<strong> ' + user.police_name + '</strong>,<br><br>You recently request a password reset link. Please click on the link below to reset your password:<br><br><a href="http://orvtiaweb.herokuapp.com/reset/' + user.resettoken + '">http://orvtiaweb.herokuapp.com/reset/</a>'
                             };
                             // Function to send e-mail to the user
                             client.sendMail(email, function(err, info) {
