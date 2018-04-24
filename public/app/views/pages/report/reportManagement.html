@@ -63,8 +63,8 @@
       <td>{{report.accident_type}}</td>
       <td>{{report.accident_cause}}</td>
       <td><p ng-repeat="people in report.people_involved_id">
-      <a href="/editPeopleInvolved/{{people._id}}">{{people.people_involved_name}}</a><p><br>
-      <button type="button" data-toggle="modal" class="btn btn-sm btn-yellow" data-target="#modalPeople">VIEW</button></td>
+      <a href="/editPeopleInvolved/{{people._id}}">{{people.people_involved_name}}</a>
+      <button type="button" data-toggle="modal" class="btn btn-sm btn-yellow" data-target="#modalPeople">VIEW</button><p><br></td>
       <td><p ng-repeat="vehicle in report.vehicle_id"><a href="/editVehicle/{{vehicle._id}}">{{vehicle.vehicle_type}}</a><p><br></td>
       <td>{{report.address_thoroughfare}}</td>
       <td>{{report.address_municipality}}</td>
@@ -110,7 +110,6 @@
             		<tr ng-repeat = "report in reportManagement.police_reports | filter: searchFilter | orderBy: 'createdAt': true " >
                   <td><p ng-repeat="people in report.people_involved_id">{{people.people_involved_name}} | {{people.people_involved_age}}</p><br></td>
             		</tr>
-                
             	</table>
             </div>
             <div class="modal-footer">
