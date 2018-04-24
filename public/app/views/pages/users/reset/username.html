@@ -1,0 +1,37 @@
+
+<div class="container-fluid">
+<!-- Card body -->
+<div class="card-body">
+  <div class="show-hide-message center-block" ng-show="username.successMsg || username.errorMsg">
+      <div ng-class="alert">{{ username.successMsg || username.errorMsg }}</div>
+  </div>
+  <form class="form-signin" name="userForm" ng-submit="username.sendUsername(userData, userForm.$valid);" novalidate>
+      <p class="h5 text-center mb-4">FORGOT USERNAME</p>
+
+      <div class="md-form">
+          <i class="fa fa-envelope prefix grey-text"></i>
+          <input type="text" id="defaultForm-uname"  ng-disabled="username.disabled" class="form-control" name="police_email" ng-model="username.userData.police_email" required>
+          <label for="defaultForm-uname">E-mail</label>
+      </div>
+      <div class="text-center">
+          <button class="btn btn-md btn-elegant" type="submit"><i class="fa fa-home prefix"></i>SUBMIT</button>
+      </div>
+  </form>
+  <!-- Form login -->
+</div>
+
+</div>
+
+        <!-- Loading Icon (Bootstrap) -->
+<div class="jumbotron text-center" ng-show="username.loading">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Loading....</p>
+</div>
+<!-- Loading Icon (Bootstrap) -->
+
+
+
+    </div>
+    <!-- End of Container -->
+</section>
+<!-- Main Section /-->

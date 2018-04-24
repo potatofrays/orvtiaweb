@@ -1,0 +1,53 @@
+
+<!-- Heading -->
+<div class=" text-center">
+      <br>
+      <p class="h5 text-center mb-4">ORVTIA WEB SERVER (UPDATE REPORT CREDIBILITY)</p>
+</div>
+<!-- Heading -->
+
+<br>
+<a href="/citizenReportManagement">
+  <strong>CITIZEN REPORTS</strong></label>
+</a>
+<strong>/</strong>&nbsp;
+<a href="#">
+<strong>EDIT</strong></label>
+</a>
+<br>
+<br>
+<!-- Bootstrap Navigation Tabs -->
+<div class="tabs-wrapper">
+    <ul class="nav classic-tabs tabs-grey nav-sm">
+        <!-- Accident Type Tab -->
+        <li role="presentation" ng-click="editCitizenReport.reportCredibilityPhase();" ng-class="reportCredibilityTab"><a href="#">REPORT CREDIBILITY</a></li>
+    <!-- Bootstrap Navigation Tabs -->
+</div>
+
+<div class="tab-content card tab-content-sm" role="tablist">
+  <div class="show-hide-message center-block" ng-show="editCitizenReport.successMsg">
+   <div class="alert alert-success center-block">{{editCitizenReport.successMsg}}</div>
+  </div>
+  <div class="show-hide-message center-block" ng-show="editCitizenReport.errorMsg">
+      <div class="alert alert-danger">{{ editCitizenReport.errorMsg }}</div>
+  </div>
+  <div class="md-form form-sm">
+    <form name="editCitizenReport.reportCredibilityForm" ng-show="editCitizenReport.phase1" ng-submit="editCitizenReport.updateReportCredibility(newReportCredibility, editCitizenReport.reportCredibilityForm.citizen_report_credibility.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                  <select name="citizen_report_credibility" ng-model="newReportCredibility" class="browser-default">
+                    <option value="" disabled selected>PENDING</option>
+                    <option value="Fraud">FRAUD</option>
+                    <option value="Factual">FACTUAL</option>
+                  </select>
+                </div>
+            </div>
+          </div>
+            <br>
+              <button ng-disabled="editCitizenReport.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+  </div>
+</div>
+
+<br>

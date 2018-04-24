@@ -1,0 +1,253 @@
+
+<!-- Heading -->
+<div class=" text-center">
+      <br>
+      <p class="h5 text-center mb-4">ORVTIA WEB SERVER (EDIT USER)</p>
+</div>
+<!-- Heading -->
+
+<br>
+<a href="/management">
+  <strong>MANAGEMENT</strong></label>
+</a>
+<strong>/</strong>&nbsp;
+<a href="#">
+<strong>EDIT</strong></label>
+</a>
+<br>
+<br>
+<!-- Bootstrap Navigation Tabs -->
+<div class="tabs-wrapper">
+    <ul class="nav classic-tabs tabs-grey nav-sm">
+        <!-- Name Tab -->
+        <li role="presentation" ng-click="edit.namePhase();" ng-class="nameTab"><a href="#">Name</a></li>
+        <!-- E-mail Tab -->
+        <li role="presentation" ng-click="edit.emailPhase();" ng-class="emailTab"><a href="#">E-mail</a></li>
+        <!-- Username Tab -->
+        <li role="presentation" ng-click="edit.usernamePhase();" ng-class="usernameTab"><a href="#">Username</a></li>
+        <!-- Contact Tab -->
+        <li role="presentation" ng-click="edit.contactPhase();" ng-class="contactTab"><a href="#">Contact</a></li>
+        <!-- Station Tab -->
+        <li role="presentation" ng-click="edit.stationPhase();" ng-class="stationTab"><a href="#">Station</a></li>
+        <!-- Rank Tab -->
+        <li role="presentation" ng-click="edit.rankPhase();" ng-class="rankTab"><a href="#">Rank</a></li>
+        <!-- Permission Tab -->
+        <li role="presentation" ng-click="edit.permissionsPhase();" ng-class="permissionsTab"><a href="#">Permission</a></li>
+    </ul>
+    <!-- Bootstrap Navigation Tabs -->
+</div>
+
+<div class="tab-content card tab-content-sm" role="tablist">
+  <div class="show-hide-message center-block" ng-show="edit.successMsg">
+   <div class="alert alert-success center-block">{{edit.successMsg}}</div>
+  </div>
+  <div class="show-hide-message center-block" ng-show="edit.errorMsg">
+      <div class="alert alert-danger">{{ edit.errorMsg }}</div>
+  </div>
+    <!-- Phase One: Name Tab -->
+  <div class="md-form form-sm">
+    <form name="edit.nameForm" ng-show="edit.phase1" ng-submit="edit.updateName(newName, edit.nameForm.police_name.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <div ng-class="{ 'has-success':(edit.nameForm.police_name.$valid && !edit.nameForm.police_name.$pristine), 'has-error':(!edit.nameForm.police_name.$valid && !edit.nameForm.police_name.$pristine) || (!nameForm.police_name.$valid && nameForm.$submitted) }">
+                        <!-- Name Input -->
+                        <i class="fa fa-question-circle prefix"></i>
+                        <input ng-disabled="edit.disabled" class="form-control" type="text" name="police_name" placeholder="please enter name" ng-model="newName" ng-pattern="/^(([a-zA-Z]{3,20})+[ ]+([a-zA-Z]{3,20})+)+$/" ng-minlength="3" ng-maxlength="20" required>
+                        <!-- Name Validation -->
+                        <p class="help-block" ng-show="(!edit.nameForm.police_name.$pristine && nameForm.police_name.$error.required) || (edit.nameForm.$submitted && edit.nameForm.police_name.$error.required)" style="color: red; font-size: 13px;">This field is required</p>
+                        <ul ng-show="(!edit.nameForm.police_name.$pristine && edit.nameForm.police_name.$error.pattern) || (!edit.nameForm.police_name.$pristine && edit.nameForm.police_name.$error.minlength) || (!edit.nameForm.police_name.$pristine && edit.nameForm.police_name.$error.maxlength)" class="help-block" style="color: red; font-size: 13px;">
+                            <li>Must have a space in between first and last name</li>
+                            <li>Must not contain any special characters</li>
+                            <li>Must not contain any numbers</li>
+                            <li>Must be at least 3 characters but no more than 20</li>
+                        </ul>
+                    </div>
+                    <!-- Update Button -->
+                    <button ng-disabled="edit.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Phase One: Name -->
+    <!-- Break -->
+    <!-- Phase Two: Username Tab -->
+    <form name="edit.usernameForm" ng-show="edit.phase2" ng-submit="edit.updateUsername(newUsername, edit.usernameForm.police_username.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <div ng-class="{ 'has-success':(edit.usernameForm.police_username.$valid && !edit.usernameForm.police_username.$pristine), 'has-error':(!edit.usernameForm.police_username.$valid && !edit.usernameForm.police_username.$pristine) || (!edit.usernameForm.police_username.$valid && edit.usernameForm.$submitted)}">
+                        <!-- Username Input -->
+                        <i class="fa fa-user prefix"></i>
+                        <input ng-disabled="register.disabled" class="form-control" type="text" name="police_username" placeholder="please enter username" ng-model="newUsername" ng-minlength="3" ng-maxlength="25" ng-pattern="/^(?!.*?[\W])(?=.*?[a-zA-Z]|=.*?[A-Z]).{3,16}$/" required>
+                        <!-- Username Validation -->
+                        <p class="help-block" ng-show="(!edit.usernameForm.police_username.$pristine && edit.usernameForm.police_username.$error.required) || (edit.usernameForm.$submitted && edit.usernameForm.police_username.$error.required)" style="color: red; font-size: 13px;">This field is required</p>
+                        <span ng-show="register.checkingUsername && edit.usernameForm.police_username.$valid" class="glyphicon glyphicon-repeat"></span>
+                        <p class="help-block" ng-show="register.usernameMsg && !edit.usernameForm.police_username.$error.required && edit.usernameForm.police_username.$valid">{{ register.usernameMsg }}</p>
+                        <ul ng-show="(!edit.usernameForm.police_username.$pristine && edit.usernameForm.police_username.$error.pattern) || (!edit.usernameForm.police_username.$pristine && edit.usernameForm.police_username.$error.minlength) || (!edit.usernameForm.police_username.$pristine && edit.usernameForm.police_username.$error.maxlength)" class="help-block" style="color: red; font-size: 13px;">
+                            <li>Must not contain any special characters or spaces</li>
+                            <li>Must be at least 3 characters but no more than 25</li>
+                        </ul>
+                    </div>
+                    <br>
+                    <!-- Update Button -->
+                    <button ng-disabled="edit.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Phase Two: Username Tab -->
+    <!-- Break -->
+    <!-- Phase Three: E-mail Tab -->
+    <form name="edit.emailForm" ng-show="edit.phase3" ng-submit="edit.updateEmail(newEmail, edit.emailForm.police_email.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <div ng-class="{ 'has-success':(edit.emailForm.police_email.$valid && !edit.emailForm.police_email.$pristine), 'has-error':(!edit.emailForm.police_email.$valid && !edit.emailForm.police_email.$pristine) || (!edit.emailForm.police_email.$valid && edit.emailForm.$submitted) }">
+                        <!-- Email Input -->
+                        <i class="fa fa-envelope-square prefix"></i>
+                        <input ng-disabled="edit.disabled" class="form-control" type="text" name="police_email" placeholder="please enter email" ng-model="newEmail" ng-minlength="3" ng-maxlength="25" ng-pattern="/^(\w+)([\-+.\'0-9A-Za-z_]+)*@(\w[\-\w]*\.){1,5}([A-Za-z]){2,6}$/" required>
+                        <!-- Email Validation -->
+                        <p class="help-block" ng-show="(!edit.emailForm.police_email.$pristine && edit.emailForm.police_email.$error.required) || (edit.emailForm.$submitted && edit.emailForm.police_email.$error.required)" style="color: red; font-size: 13px;">This field is required</p>
+                        <span ng-show="edit.checkingEmail && edit.emailForm.police_email.$valid" class="glyphicon glyphicon-repeat"></span>
+                        <p class="help-block" ng-show="edit.emailMsg && !edit.emailForm.police_email.$error.required && edit.emailForm.police_email.$valid">{{ edit.emailMsg }}</p>
+                        <ul ng-show="(!edit.emailForm.police_email.$pristine && edit.emailForm.police_email.$error.pattern) || (!edit.emailForm.police_email.$pristine && edit.emailForm.police_email.$error.minlength) || (!edit.emailForm.police_email.$pristine && edit.emailForm.police_email.$error.maxlength)" class="help-block" style="color: red; font-size: 13px;">
+                            <li>Must contain "@"</li>
+                            <li>Must not contain any special characters</li>
+                            <li>Must be at least 3 characters but no more than 25</li>
+                        </ul>
+                    </div>
+                    <!-- Update Button -->
+                  <button ng-disabled="edit.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Phase Three: E-mail Tab -->
+    <!-- Break -->
+    <!-- Phase four: contact Tab -->
+    <form name="edit.contactForm" ng-show="edit.phase4" ng-submit="edit.updateContact(newContact, edit.contactForm.police_contact.$valid)" novalidate>
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="col-md-6">
+                <div ng-class="{ 'has-success':(edit.contactForm.police_contact.$valid && !edit.contactForm.police_contact.$pristine), 'has-error':(!edit.contactForm.police_contact.$valid && !edit.contactForm.police_contact.$pristine) || (!edit.contactForm.police_contact.$valid && edit.contactForm.$submitted) }">
+                    <!-- Last Name Input -->
+                    <i class="fa fa-phone prefix"></i>
+                    <input ng-disabled="register.disabled" class="form-control" type="text" name="police_contact" ng-model="newContact" ng-pattern="/^(09|\+639)\d{9}$/" required>
+                    <!-- Last Name Validation -->
+                    <p class="help-block" ng-show="(!edit.contactForm.police_contact.$pristine && edit.contactForm.police_contact.$error.required) || (edit.contactForm.$submitted && edit.contactForm.police_contact.$error.required)" style="color: red; font-size: 11px; font-family: Courier New;">This field is required</p>
+                    <ul ng-show="(!edit.contactForm.police_contact.$pristine && edit.contactForm.police_contact.$error.pattern) || (!edit.contactForm.police_contact.$pristine && edit.contactForm.police_contact.$error.minlength) || (!edit.contactForm.police_contact.$pristine && edit.contactForm.police_contact.$error.maxlength)" class="help-block" style="color: red; font-size: 11px; font-family: Courier New;">
+                        <li>Must be a valid ph number</li>
+                        <li>Must not contain any special characters or spaces</li>
+                        <li>Must be 11 numbers (09xxxxxxxxx/ +639xxxxxxxxx)</li>
+                    </ul>
+                </div>
+              </div>
+          </div>
+      </div>
+      <button ng-disabled="edit.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+        <!-- Phase four: contact Tab -->
+        <!-- Break -->
+        <!-- Phase five: Station Tab -->
+
+    <form name="edit.stationForm" ng-show="edit.phase5" ng-submit="edit.updateStation(newStation, edit.stationForm.police_station.$valid)" novalidate>
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="col-md-6">
+                   <select name="police_station" ng-model="newStation"  class="browser-default">
+                     <option value="" disabled selected>Police Station</option>
+                     <option value="Agno">Agno</option>
+                     <option value="Aguilar">Aguilar</option>
+                     <option value="Alcala">Alcala</option>
+                     <option value="Anda">Anda</option>
+                     <option value="Asingan">Asingan</option>
+                     <option value="Balungao">Balungao</option>
+                     <option value="Bani">Bani</option>
+                     <option value="Basista">Basista</option>
+                     <option value="Bautista">Bautista</option>
+                     <option value="Bayambang">Bayambang</option>
+                     <option value="Binalonan">Binalonan</option>
+                     <option value="Binmaley">Binmaley</option>
+                     <option value="Bolinao">Bolinao</option>
+                     <option value="Bugallon">Bugallon</option>
+                     <option value="Burgos">Burgos</option>
+                     <option value="Calasiao">Calasiao</option>
+                     <option value="Dasol">Dasol</option>
+                     <option value="Infanta">Infanta</option>
+                     <option value="Labrador">Labrador</option>
+                     <option value="Laoac">Laoac</option>
+                     <option value="Lingayen">Lingayen</option>
+                     <option value="Mabini">Mabini</option>
+                     <option value="Malasiqui">Malasiqui</option>
+                     <option value="Manaoag">Manaoag</option>
+                     <option value="Mangaldan">Mangaldan</option>
+                     <option value="Mangatarem">Mangatarem</option>
+                     <option value="Mapandan">Mapandan</option>
+                     <option value="Natividad">Natividad</option>
+                     <option value="Pozorrubio">Pozorrubio</option>
+                     <option value="Rosales">Rosales</option>
+                     <option value="SanFabian">San Fabian</option>
+                     <option value="SanJacinto">San Jacinto</option>
+                     <option value="SanManuel" >San Manuel</option>
+                     <option value="SanNicolas">San Nicolas</option>
+                     <option value="SanQuintin">San Quintin</option>
+                     <option value="SantaBarbara">Santa Barbara</option>
+                     <option value="SantaMaria">Santa Maria</option>
+                     <option value="SantoTomas">Santo Tomas</option>
+                     <option value="Sison">Sison</option>
+                     <option value="Sual">Sual</option>
+                     <option value="Tayug">Tayug</option>
+                     <option value="Umingan">Umingan</option>
+                     <option value="Urbiztondo">Urbiztondo</option>
+                     <option value="Villasis">Villasis</option>
+                  </select>
+              </div>
+            </div>
+          </div>
+          <br>
+          <button ng-disabled="edit.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+        <!-- Phase five: Station Tab -->
+    <form name="edit.rankForm" ng-show="edit.phase6" ng-submit="edit.updateRank(newRank, edit.rankForm.police_rank.$valid)" novalidate>
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="col-md-6">
+                     <select name="police_rank" ng-model="newRank"  class="browser-default">
+                       <option value="" disabled selected>Police Rank</option>
+                       <option value="PO1">PO1</option>
+                       <option value="PO2">PO2</option>
+                       <option value="PO3">PO2</option>
+                       <option value="SPO1">SPO1</option>
+                       <option value="SPO2">SPO2</option>
+                       <option value="SPO3">SPO3</option>
+                       <option value="SPO4">SPO4</option>
+                     </select>
+                  </select>
+              </div>
+            </div>
+          </div>
+          <br>
+          <button ng-disabled="edit.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+        <!-- Break -->
+        <!-- Phase six: Permission Tab -->
+    <div ng-show="edit.phase7">
+        <label>Current Permission: &nbsp;&nbsp;&nbsp;<strong>{{ newPermission }}</strong></label>
+        <br>
+        <br>
+        <!-- User Permission Button -->
+        <button ng-disabled="edit.disableUser" ng-click="edit.updatePermissions('user');" type="button" class="btn btn-mdb btn-md">User</button>&nbsp
+        <!-- Moderator Permission Button -->
+        <button ng-disabled="edit.disableStation" ng-click="edit.updatePermissions('station');" type="button" class="btn btn-elegant btn-md">Station</button>&nbsp
+        <!-- Admin Permission Button -->
+        <button ng-disabled="edit.disableMain" ng-click="edit.updatePermissions('main');" type="button" class="btn btn-blue-grey btn-md">Main</button>
+    </div>
+    <!-- Phase Four: Permission Tab -->
+    <!-- Custom Message -->
+
+  </div>
+    <!-- Custom Message -->
+</div>
+
+<br>

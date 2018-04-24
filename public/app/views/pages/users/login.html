@@ -1,0 +1,103 @@
+<link rel="stylesheet" href="assets/css/logintem.css">
+<link rel="stylesheet" href="assets/css/floating-labels.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<div class="container-fluid">
+  <!--alert-->
+  <div class= "jumbotron text-center" ng-show="main.loading">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Loading....</p>
+  </div>
+  <div class="show-hide-message center-block" ng-show="main.successMsg">
+    <div class="alert alert-success center-block">{{ main.successMsg }}</div>
+  </div>
+  <div class="show-hide-message center-block" ng-show="main.errorMsg">
+    <div class="alert alert-danger center-block">{{ main.errorMsg }}</div>
+  </div>
+  <!-- Form login -->
+
+<!-- Card -->
+<div class="card">
+
+<!-- Card body -->
+<div class="card-body card-md">
+  <form class="form-signin" ng-submit="main.doLogin(loginData);">
+      <p class="h5 text-center mb-4">ORVTIA WEB SERVER (LOGIN)</p>
+
+      <div class="md-form">
+          <i class="fa fa-envelope prefix grey-text"></i>
+          <input type="text" id="defaultForm-uname" class="form-control" name="police_username" ng-model="main.loginData.police_username">
+          <label for="defaultForm-uname">Username</label>
+      </div>
+      <div class="md-form">
+          <i class="fa fa-lock prefix grey-text"></i>
+          <input type="password" id="defaultForm-pass" class="form-control" name="police_password" ng-model="main.loginData.police_password">
+          <label for="defaultForm-pass">Your password</label>
+      </div>
+      <div align="center">
+      <div class="md-form" align="text-center">
+        <select name="police_station" ng-model="main.loginData.police_station"  class="browser-default">
+          <option value="" disabled selected>Police Station</option>
+          <option value="Agno">Agno</option>
+          <option value="Aguilar">Aguilar</option>
+          <option value="Alcala">Alcala</option>
+          <option value="Anda">Anda</option>
+          <option value="Asingan">Asingan</option>
+          <option value="Balungao">Balungao</option>
+          <option value="Bani">Bani</option>
+          <option value="Basista">Basista</option>
+          <option value="Bautista">Bautista</option>
+          <option value="Bayambang">Bayambang</option>
+          <option value="Binalonan">Binalonan</option>
+          <option value="Binmaley">Binmaley</option>
+          <option value="Bolinao">Bolinao</option>
+          <option value="Bugallon">Bugallon</option>
+          <option value="Burgos">Burgos</option>
+          <option value="Calasiao">Calasiao</option>
+          <option value="Dasol">Dasol</option>
+          <option value="Infanta">Infanta</option>
+          <option value="Labrador">Labrador</option>
+          <option value="Laoac">Laoac</option>
+          <option value="Lingayen">Lingayen</option>
+          <option value="Mabini">Mabini</option>
+          <option value="Malasiqui">Malasiqui</option>
+          <option value="Manaoag">Manaoag</option>
+          <option value="Mangaldan">Mangaldan</option>
+          <option value="Mangatarem">Mangatarem</option>
+          <option value="Mapandan">Mapandan</option>
+          <option value="Natividad">Natividad</option>
+          <option value="Pozorrubio">Pozorrubio</option>
+          <option value="Rosales">Rosales</option>
+          <option value="SanFabian">San Fabian</option>
+          <option value="SanJacinto">San Jacinto</option>
+          <option value="SanManuel" >San Manuel</option>
+          <option value="SanNicolas">San Nicolas</option>
+          <option value="SanQuintin">San Quintin</option>
+          <option value="SantaBarbara">Santa Barbara</option>
+          <option value="SantaMaria">Santa Maria</option>
+          <option value="SantoTomas">Santo Tomas</option>
+          <option value="Sison">Sison</option>
+          <option value="Sual">Sual</option>
+          <option value="Tayug">Tayug</option>
+          <option value="Umingan">Umingan</option>
+          <option value="Urbiztondo">Urbiztondo</option>
+          <option value="Villasis">Villasis</option>
+        </select>
+     </div>
+   </div>
+      <div class="text-center">
+          <button class="btn btn-md btn-elegant" type="submit"><i class="fa fa-home prefix"></i> Login</button>
+      </div>
+      <div align="center">
+          <a href="/resetpassword">
+            <label style="color: grey; font-size: 13px; font-family: Courier New;">Forgot Password</label>
+          </a> &nbsp;<strong>|</strong>&nbsp;
+          <a href="/resetusername">
+              <label style="color: grey; font-size: 13px; font-family: Courier New;">Forgot Username</label>
+          </a>
+      </div>
+  </form>
+  <!-- Form login -->
+</div>
+</div>
+
+</div>

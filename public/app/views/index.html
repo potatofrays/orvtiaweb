@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Main Angular Files -->
+    <script src="assets/js/angular.js"></script>
+    <script src="assets/js/angular-route.js"></script>
+    <script src="assets/js/angular-animate.js"></script>
+
+    <!-- Angular Config/Routes -->
+    <script src="app/app.js"></script>
+    <script src="app/routes.js"></script>
+
+    <!-- Angular Controllers -->
+    <script src="app/controllers/userCtrl.js"></script>
+    <script src="app/controllers/mainCtrl.js"></script>
+    <script src="app/controllers/resetCtrl.js"></script>
+    <script src="app/controllers/managementCtrl.js"></script>
+    <script src="app/controllers/reportManagementCtrl.js"></script>
+    <script src="app/controllers/addCtrl.js"></script>
+      <script src="app/controllers/citizenReportManagementCtrl.js"></script>
+
+    <!-- Angular Services -->
+    <script src="app/services/userServices.js"></script>
+    <script src="app/services/authServices.js"></script>
+    <script src="app/services/reportServices.js"></script>
+    <script src="app/services/gservice.js"></script>
+    <script src="app/services/citizenReportServices.js"></script>
+
+
+    <!-- Cascade Style Sheets -->
+    <link rel="stylesheet" href="assets/css/compiled.min.css" type="text/css" >
+    <link rel="icon" href="assets/img/icon.png">
+    <link rel="stylesheet" href="assets/css/custom2.css" type="text/css"  >
+    <link rel="stylesheet" href="assets/css/style2.css" type="text/css"  >
+    <link rel="stylesheet" href="assets/css/logintem.css">
+    <link rel="stylesheet" href="assets/css/animate2.css">
+    <link rel="stylesheet" href=" https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRXGkNUJ7ibYPMtrqm3fEUilG9jh0vOhE"></script>
+
+    <!-- JS Source -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/angularjs-geolocation/dist/angularjs-geolocation.min.js"></script>
+
+    <!-- Angular Files -->
+    <script src="assets/js/headerCtrl.js"></script>
+
+  <title>ORVTIA</title>
+</head>
+
+<body class="fixed-sn grey-skin" ng-app="userApp" ng-controller="mainCtrl as main" ng-show="main.loadme" ng-cloak>
+
+<!-- Fixed navbar -->
+<!--Double navigation-->
+<header>
+  <!-- Sidebar navigation -->
+  <div id="slide-out" class="side-nav fixed" ng-show="main.isLoggedIn" style="background-image: url(assets/img/bg.png);">
+      <ul class="custom-scrollbar list-unstyled" style="max-height:100vh;" >
+          <!-- Logo -->
+          <br>
+          <li>
+              <div class="logo-wrapper ">
+                  <a href="#"><img src="assets/img/orvtia_logo.png" class="img-fluid flex-center"></a>
+              </div>
+          </li>
+          <br>
+          <li></li>
+          <!-- Side navigation links -->
+          <li>
+              <ul class="collapsible collapsible-accordion" style="margin-top: 85px">
+                <li><a class="collapsible-header waves-effect arrow-r" ng-show="main.isLoggedIn" href="/dashboard"><i class=" fa fa-dashboard"></i>Dashboard</a>
+                  </li>
+                  <li><a class="collapsible-header waves-effect arrow-r" ng-show="main.isLoggedIn"><i class="fa fa-user"></i>User Management<i class="fa fa-angle-down rotate-icon"></i></a>
+                      <div class="collapsible-body">
+                          <ul>
+                              <li><a ng-show="main.isLoggedIn && main.authorized" href="/management" class="waves-effect">Police User Management</a>
+                              </li>
+                              <li><a ng-show="main.isLoggedIn"  href="#" class="waves-effect">Citizens Management</a>
+                              </li>
+                          </ul>
+                      </div>
+                  </li>
+                  <li><a class="collapsible-header waves-effect arrow-r" ng-show="main.isLoggedIn"><i class="fa fa-folder"></i> Manage Reports<i class="fa fa-angle-down rotate-icon"></i></a>
+                      <div class="collapsible-body">
+                          <ul>
+                              <li><a ng-show="main.isLoggedIn" href="/reportManagement" class="waves-effect">Police Reports</a>
+                              </li>
+                              <li><a ng-show="main.isLoggedIn" href="/citizenReportManagement" class="waves-effect">Citizen Reports</a>
+                              </li>
+                          </ul>
+                      </div>
+                  </li>
+              </ul>
+          </li>
+          <!--/. Side navigation links -->
+      </ul>
+      <div class="sidenav-bg mask-strong"></div>
+  </div>
+  <!--/. Sidebar navigation -->
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+      <!-- SideNav slide-out button -->
+      <div class="float-left">
+          <a href="#" data-activates="slide-out" ng-show="main.isLoggedIn" class="button-collapse"><i class="fa fa-bars"></i></a>
+      </div>
+      <!-- Breadcrumb-->
+      <div class="breadcrumb-dn mr-auto" ng-show="main.isLoggedIn">
+          <p>ORVTIA WEB SERVER</p>
+      </div>
+      <ul class="nav navbar-nav nav-flex-icons ml-auto">
+          <li class="nav-item">
+              <a class="nav-link" ng-show="main.isLoggedIn" href="#"<span class="clearfix d-none d-sm-inline-block"><span style="color: white; font-size: 14px;"> RESET</span></a>
+          </li>
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" ng-show="main.isLoggedIn" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              </a>
+              <div class="dropdown-menu dropdown-menu-right dropdown-menu-elegant" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="/resetpassword" ng-show="main.isLoggedIn"><i class="fa fa-lock"></i>  Password</a>
+                  <a class="dropdown-item" href="/resetusername" ng-show="main.isLoggedIn"><i class="fa fa-user"></i>  Username</a>
+              </div>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" ng-show="main.isLoggedIn"><i class="fa fa-envelope"></i> <span class="clearfix d-none d-sm-inline-block"></span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" ng-show="main.isLoggedIn"><i class="fa fa-comments-o"></i> <span class="clearfix d-none d-sm-inline-block"></span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" ng-show="main.isLoggedIn" href="/profile"><i class="fa fa-user"></i> <span class="clearfix d-none d-sm-inline-block"><span style="color: yellow; font-size: 13px;"> {{main.police_username}}</span></a>
+          </li>
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" ng-show="main.isLoggedIn" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              </a>
+              <div class="dropdown-menu dropdown-menu-right dropdown-menu-elegant" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#" ng-show="main.isLoggedIn" ng-click="main.logout();"><i class="fa fa-sign-out"></i>  Logout</a>
+              </div>
+          </li>
+      </ul>
+  </nav>
+  <!-- /.Navbar -->
+</header>
+</header>
+<!--/.Double navigation-->
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="assets/js/compiled.min.js"></script>
+  <script>
+    // SideNav Initialization
+    $(".button-collapse").sideNav();
+
+    new WOW().init();
+
+  </script>
+    <!-- end of JQuery -->
+  <main role="main">
+      <div class="container-fluid">
+        <div id="map"></div>
+        <div ng-view></div>
+      </div>
+  </main>
+<!-- /.container -->
+
+<!-- Bootstrap core JavaScript -->
+<!-- Button trigger modal-->
+<div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button ng-hide="main.hideButton" type="button" ng-click="main.endSession();" class="close" data-dismiss="modal">&times;</button>
+                    <!-- Modal Header -->
+                    <h4 class="modal-title">{{ main.modalHeader }}</h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <p>{{ main.modalBody }}</p>
+                    <div ng-show="main.hideButton" class="dizzy-gillespie"></div>
+                </div>
+                <div class="modal-footer">
+                    <!-- Modal 'Yes' & 'No' Buttons -->
+                    <button type="button" ng-hide="main.hideButton" ng-click="main.renewSession();" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                    <button type="button" ng-hide="main.hideButton" ng-click="main.endSession();" class="btn btn-danger" data-dismiss="modal">No</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- BootstrapJS Modal -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery-3.1.1.min.js"></script>
+    <script src="assets/js/bootstrap.js"></script>
+
+</body>
+
+</html>

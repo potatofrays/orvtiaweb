@@ -1,0 +1,130 @@
+<!-- Google Maps API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRXGkNUJ7ibYPMtrqm3fEUilG9jh0vOhE"></script>
+<style>
+#map{
+  height: 550px;
+  width: 850px;
+  float: left;
+  overflow: hidden;
+}
+
+#legendContainer{
+  padding: 20px 80px 20px 0px;
+  background-color: #ECEFF1;
+  float: right;
+}
+/* basic positioning */
+.legend h6{ font-weight: normal; }
+.legend { list-style: none; font-size: 15px; font-weight: normal;}
+.legend li { float: left;}
+.legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 3px ; }
+/* your colors */
+.legend .superawesome { background-color: #FF0000 ; }
+.legend .awesome { background-color: #FF6600; }
+.legend .kindaawesome { background-color: #33CC00; }
+.legend .notawesome { background-color: #FFFF33; }
+
+</style>
+
+<div class="container">
+  <div id="legendContainer">
+  <ul class="legend">
+    <h6>Accident Prone Areas</h6><br>
+    <li><span class="superawesome"></span> 100%</li><br><br>
+    <li><span class="awesome"></span> 50%</li><br><br>
+    <li><span class="kindaawesome"></span> 0%</li><br><br>
+  </ul>
+</div>
+<div class="container-fluid text-center">
+<a href="/login">
+  <p class="section-subheading text-muted" style="font-family: Courier New">Hello <strong style="color: red">{{ main.username || "user" }},</strong> Welcome to our web server!</p>
+  <button class="btn btn-elegant btn-md"><i class="fa fa-home prefix"></i> Login</button>
+</a>
+</div>
+</div>
+  <div class="container-fluid text-center" >
+    <button type="button" class="btn btn-blue-grey btn-md" data-toggle="modal" ng-show="addReport.addWalkInAccess" data-target="#modalAddReport">Add Walk-In Report  &nbsp;<i class="fa fa-plus-circle prefix fa-md"></i></button>
+    <div class="modal fade" id="modalAddReport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+     <div class="modal-dialog cascading-modal" role="document">
+         <!--Content-->
+         <div class="modal-content">
+             <!--Header-->
+             <div class="modal-header grey darken-2 white-text">
+                 <h5 class="title"><i class="fa fa-user-plus"></i> Add Walk-In Reports</h5>
+                 <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>
+             </div>
+           <div class="modal-body">
+             <form name ="addForm" ng-controller="addCtrl" novalidate>
+                 <div class="md-form form-sm">
+                   <label>Ready to Report?</label>
+                   <!-- Note RefreshLoc button tied to addCtrl. This requests a refresh of the HTML5 verified location. -->
+                   <input type="text" class="form-control" placeholder="Please click anywhere in the map before adding a report!" id="verified" ng-model="formData.htmlverified" readonly>
+                 </div>
+                 <!-- Text Boxes and Other User Inputs. Note ng-model binds the values to Angular $scope -->
+                 <div class="md-form form-sm">
+                     <label for="informant">Informant</label>
+                     <input type="text" class="form-control" id="informant" ng-model="formData.informant" required>
+                 </div>
+                 <div class="md-form form-sm">
+                   <label for="statement">Statement</label>
+                   <input type="text" class="form-control" id="statement" ng-model="formData.statement" required>
+                 </div>
+                 <div class="md-form form-sm">
+                     <label for="accidentType">Accident Type</label>
+                     <input type="text" class="form-control" id="accidentType" ng-model="formData.accidentType" required>
+                 </div>
+                   <div class="md-form form-sm">
+                     <label for="vehicleType">Vehicle Type</label>
+                     <input type="text" class="form-control" id="vehicleType" ng-model="formData.vehicleType" required>
+                 </div>
+                 <div class="md-form form-sm">
+                     <label for="plateNum">Plate Number</label>
+                     <input type="text" class="form-control" id="plateNum" ng-model="formData.plateNum" required>
+                 </div>
+                 <div class="md-form form-sm">
+                     <label for="accidentCause">Cause of Accident</label>
+                     <input type="text" class="form-control" id="accidentCause" ng-model="formData.accidentCause" required>
+                 </div>
+                 <div class="md-form form-sm">
+                   <label for="address">Address</label>
+                   <input type="text" class="form-control" id="address" ng-model="formData.address">
+                   <button id="btn" class="btn btn-blue-grey btn-sm">Get Lat-Long</button>
+                 </div>
+                 <div class="md-form form-sm">
+                     <label for="latitude">Latitude</label>
+                     <input type="text" class="form-control" id="latitude" value="15.7961094" ng-model="formData.latitude" readonly>
+                 </div>
+                 <div class="md-form form-sm">
+                     <label for="longitude">Longitude</label>
+                     <input type="text" class="form-control" id="longitude" value="120.386395" ng-model="formData.longitude" readonly>
+                 </div>
+                 <div class="md-form">
+                   <p>Time and Date of Accident:</p>
+                   <input ng-model="formData.dateTimeOccured"  class="form-control" type="datetime-local" required>
+                 </div>
+                 <div class="md-form">
+                    <label>Station:</label>
+                    <input ng-model="formData.station" class="form-control" id="station" type="text" value="{{main.policestation}}" readonly>
+                </div>
+                <div class="md-form">
+                   <label>Police On Duty:</label>
+                   <input ng-model="formData.policereporter" class="form-control" id="policereporter" value="{{main.username}}" type="text" readonly>
+                <div class="md-form">
+                 <div class="md-form form-sm">
+                   <span><button ng-click="refreshLoc()" class="btn btn-elegant btn-md"><span class="fa fa-refresh"></span></button></span>
+                 </div>
+                 <!-- Submit button. Note that its tied to createUser() function from addCtrl. Also note ng-disabled logic which prevents early submits.  -->
+                 <button type="submit" class="btn btn-elegant btn-sm" ng-click="createReport()" ng-disabled="addForm.$invalid">Submit</button>
+             </form>
+          </div>
+             <!--Footer-->
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-mdb btn-sm btn-grey waves-effect ml-auto" data-dismiss="modal"><i class="fa fa-close"></i>  &nbsp;Close</button>
+             </div>
+         </div>
+         <!--/.Content-->
+     </div>
+  </div>
+  </div>

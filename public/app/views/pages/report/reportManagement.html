@@ -1,0 +1,124 @@
+<link rel="stylesheet" href="assets/css/compiled.min.css" type="text/css" >
+<style type="text/css">
+  .searchCon{
+    height: 10px;
+    width:300px;
+    float: left;
+  }
+</style>
+
+<br><br>
+<div class="container-fluid">
+  <div class="panel panel-primary">
+  	<div class="panel-heading">
+  		<center><h3><strong>Police Report Management</strong></h3></center><br>
+  	</div>
+  </div>
+
+       <div class="md-form form-sm">
+          <!--Search-->
+          <div class="searchCon">
+            <i class="fa fa-search prefix"></i>
+            <input type="text" ng-model="searchKeyword" id="formSearch" class="form-control">
+            <label for="formSearch">Search</label>
+          </div>
+           <button class="btn btn-info mb-1 btn-red btn-sm" ng-click="reportManagement.search(searchKeyword, number);">Search <i class="fa fa-check ml-1"></i></button>
+          <button class="btn btn-info mb-1 btn-grey btn-sm" ng-click="reportManagement.clear();">Clear <i class="fa fa-check ml-1"></i></button>
+          <a href="/dashboard">
+          <button type="button" ng-show="reportManagement.createRepotBtn" class="btn btn-elegant btn-sm" style="float: right;">CREATE REPORT </i></button></a>
+        </div>
+
+  <!--alert-->
+  <div class= "jumbotron text-center" ng-show="main.loading">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Loading....</p>
+  </div>
+  <hr>
+  <div class="show-hide-message center-block" ng-show="reportManagement.showMoreError">
+    <div class="alert alert-danger center-block">{{ reportManagement.showMoreError}}</div>
+  </div>
+  <div class="md-form" ng-show="searchFilter !== undefined">
+  	<p><strong>Total results: </strong>{{ (reportManagement.police_reports | filter: searchFilter).length }} &nbsp; &nbsp;<strong>Showing: </strong>{{ (reportManagement.citizen_reports | filter: searchFilter | limitTo: reportManagement.limit).length  }}</p>
+  </div>
+
+  <!-- Table reportManagement -->
+	<table class="table table-hover table-bordered table-sm">
+	<thead class="yellow lighten-4">
+		<tr><strong>
+			<th><strong>Date/Time Transpired</strong></th>
+			<th><strong>Date/Time Reported</strong></th>
+      <th><strong>Accident Type</strong></th>
+      <th><strong>Accident Cause</strong></th>
+      <th><strong>People Involved</strong></th>
+      <th><strong>Vehicle Type</strong></th>
+      <th><strong>Thoroughfare</strong></th>
+      <th><strong>Municipality/Station</strong></th>
+      <th><strong>Police Informant</strong></th>
+      <th><strong>Action</strong></th>
+		</tr>
+	</thead>
+		<tr ng-repeat = "report in reportManagement.police_reports | filter: searchFilter | orderBy: 'createdAt': true " >
+			<td>{{report.committed_at | date:"MMM d, y '-' h: mma "}}</td>
+      <td>{{report.reported_at | date:"MMM d, y '-' h: mma "}}</td>
+      <td>{{report.accident_type}}</td>
+      <td>{{report.accident_cause}}</td>
+      <td><p ng-repeat="people in report.people_involved_id">
+      <a href="/editPeopleInvolved/{{people._id}}">{{people.people_involved_name}}</a><p><br>
+      <button type="button" data-toggle="modal" class="btn btn-sm btn-yellow" data-target="#modalPeople">VIEW</button></td>
+      <td><p ng-repeat="vehicle in report.vehicle_id"><a href="/editVehicle/{{vehicle._id}}">{{vehicle.vehicle_type}}</a><p><br></td>
+      <td>{{report.address_thoroughfare}}</td>
+      <td>{{report.address_municipality}}</td>
+      <td>{{report.police_username}}</td>
+			<td>
+        <a href="/editReport/{{ report._id }}">
+					<button type="button" ng-show="reportManagement.generateReportAccess" class="btn btn-grey btn-sm">Update</button>
+				</a>
+        <a href="#">
+          <label ng-show="reportManagement.viewAccess"><strong><b>VIEW ONLY</b></strong></label>
+        </a>
+			</td>
+		</tr>
+	</table>
+  <br>
+
+        <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modalPeople" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <table class="table table-hover table-bordered">
+            	<thead class="yellow lighten-4">
+            		<tr><strong>
+            			<th><strong>Name</strong></th>
+            			<th><strong>Age</strong></th>
+                  <th><strong>Gender</strong></th>
+                  <th><strong>Citizenship</strong></th>
+                  <th><strong>Status</strong></th>
+            		</tr>
+            	</thead>
+            		<tr ng-repeat = "report in reportManagement.police_reports | filter: searchFilter | orderBy: 'createdAt': true " >
+                  <td><p ng-repeat="people in report.people_involved_id">{{people.people_involved_name}} | {{people.people_involved_age}}</p><br></td>
+            		</tr>
+                
+            	</table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>

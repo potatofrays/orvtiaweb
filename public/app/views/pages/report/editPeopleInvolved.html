@@ -1,0 +1,111 @@
+
+<!-- Heading -->
+<div class=" text-center">
+      <br>
+      <p class="h5 text-center mb-4">ORVTIA WEB SERVER (EDIT POLICE INVOLVED)</p>
+</div>
+<!-- Heading -->
+
+<br>
+<a href="/reportManagement">
+  <strong>REPORT MANAGEMENT</strong></label>
+</a>
+<strong>/</strong>&nbsp;
+<a href="#">
+<strong>EDIT</strong></label>
+</a>
+<br>
+<br>
+<!-- Bootstrap Navigation Tabs -->
+<div class="tabs-wrapper">
+    <ul class="nav classic-tabs tabs-grey nav-sm">
+      <!-- Committed Tab -->
+      <li role="presentation" ng-click="editPeopleInvolved.namePhase();" ng-class="nameTab"><a href="#">Name</a></li>
+      <!-- Accident Type Tab -->
+      <li role="presentation" ng-click="editPeopleInvolved.agePhase();" ng-class="ageTab"><a href="">Age</a></li>
+      <!-- Accident Cause Tab -->
+      <li role="presentation" ng-click="editPeopleInvolved.genderPhase();" ng-class="genderTab"><a href="#">Gender</a></li>
+      <!-- Accident Cause Tab -->
+      <li role="presentation" ng-click="editPeopleInvolved.citizenshipPhase();" ng-class="citizenshipTab"><a href="#">Citizenship</a></li>
+      <!-- Accident Cause Tab -->
+      <li role="presentation" ng-click="editPeopleInvolved.statusPhase();" ng-class="statusTab"><a href="#">Status</a></li>
+
+    <!-- Bootstrap Navigation Tabs -->
+</div>
+
+<div class="tab-content card tab-content-sm" role="tablist">
+  <div class="show-hide-message center-block" ng-show="editPeopleInvolved.successMsg">
+   <div class="alert alert-success center-block">{{editPeopleInvolved.successMsg}}</div>
+  </div>
+  <div class="show-hide-message center-block" ng-show="editPeopleInvolved.errorMsg">
+      <div class="alert alert-danger">{{ editPeopleInvolved.errorMsg }}</div>
+  </div>
+  <div class="md-form form-sm">
+    <form name="editPeopleInvolved.nameForm" ng-show="editPeopleInvolved.phase1" ng-submit="editPeopleInvolved.updateName(newPeopleInvolvedName, editPeopleInvolved.nameForm.people_involved_name.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                   <input ng-model="newPeopleInvolvedName" class="form-control" name="people_involved_name" type="text">
+                </div>
+              </div>
+            </div>
+            <br>
+            <button ng-disabled="editPeopleInvolved.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+    <form name="editPeopleInvolved.ageForm" ng-show="editPeopleInvolved.phase2" ng-submit="editPeopleInvolved.updateAge(newPeopleInvolvedAge, editPeopleInvolved.ageForm.people_involved_age.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                   <input ng-model="newPeopleInvolvedAge" class="form-control" name="people_involved_age" type="text">
+                </div>
+              </div>
+            </div>
+            <br>
+            <button ng-disabled="editPeopleInvolved.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+    <form name="editPeopleInvolved.genderForm" ng-show="editPeopleInvolved.phase3" ng-submit="editPeopleInvolved.updateGender(newPeopleInvolvedGender, editPeopleInvolved.genderForm.people_involved_gender.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <select name="people_involved_gender" ng-model="newPeopleInvolvedGender" class="browser-default">
+                      <option value="" disabled selected>GENDER</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+          </div>
+            <br>
+              <button ng-disabled="editPeopleInvolved.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+    <form name="editPeopleInvolved.citizenshipForm" ng-show="editPeopleInvolved.phase4" ng-submit="editPeopleInvolved.updateCitizenship(newPeopleInvolvedCitizenship, editPeopleInvolved.citizenshipForm.people_involved_citizenship.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                     <input ng-model="newPeopleInvolvedCitizenship" class="form-control" name="people_involved_citizenship" type="text">
+                </div>
+            </div>
+          </div>
+            <br>
+              <button ng-disabled="editPeopleInvolved.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+    <form name="editPeopleInvolved.statusForm" ng-show="editPeopleInvolved.phase5" ng-submit="editPeopleInvolved.updateStatus(newPeopleInvolvedStatus, editPeopleInvolved.statusForm.people_involved_status.$valid)" novalidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <select name="people_involved_status" ng-model="newPeopleInvolvedStatus" class="browser-default">
+                      <option value="" disabled selected>STATUS</option>
+                      <option value="Unharmed">Unharmed</option>
+                      <option value="Hospitalized">Hospitalized</option>
+                      <option value="Injured">Injured</option>
+                      <option value="Died">Died</option>
+                    </select>
+                </div>
+            </div>
+          </div>
+            <br>
+              <button ng-disabled="editPeopleInvolved.disabled" class="btn btn-blue-grey btn-sm" type="submit">Update</button>
+    </form>
+  </div>
+</div>
+<br>

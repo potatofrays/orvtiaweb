@@ -1,0 +1,341 @@
+<link rel="stylesheet" href="assets/css/compiled.min.css" type="text/css" >
+<link rel="stylesheet" href="assets/css/style2.css" type="text/css" >
+<style type="text/css">
+  .searchCon{
+    height: 10px;
+    width:300px;
+    float: left;
+  }
+</style>
+
+<br>
+<div class="container-fluid">
+  <div class="panel panel-primary">
+  	<div class="panel-heading">
+  		<center><h3><strong>USER MANAGEMENT</strong></h3></center><br>
+  	</div>
+  </div>
+    <div class="md-form form-sm">
+          <!--Search-->
+          <div class="searchCon">
+            <i class="fa fa-search prefix"></i>
+            <input type="text" ng-model="searchKeyword" id="formSearch" class="form-control" >
+            <label for="formSearch">Search</label>
+          </div>
+          <button class="btn btn-info mb-1 search btn-red btn-sm" ng-click="management.search(searchKeyword, number);">Search <i class="fa fa-check ml-1"></i></button>
+          <!--Clear-->
+          <button class="btn btn-info mb-1 btn-grey btn-sm" ng-click="management.clear();">Clear <i class="fa fa-check ml-1"></i></button>
+          <!--Police registration Modal Button-->
+          <button type="button" class="btn btn-elegant btn-sm" data-toggle="modal" data-target="#modalAddPolice" style="float: right;">Police Registartion</button>
+        </div>
+    <!--Modal for Police Registration-->
+    <div ng-controller="regCtrl as register" class="modal fade" id="modalAddPolice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-dialog cascading-modal" role="document">
+           <!--Content-->
+           <div class="modal-content">
+               <!--Header-->
+               <div class="modal-header grey darken-2 white-text">
+                   <h5 class="title"><i class="fa fa-user-plus"></i> Police Registration</h5>
+                   <button type="button" class="close waves-effect waves-light" data-dismiss="modal"  onclick="javascript:window.location.reload()" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <!--Body-->
+               <div class="modal-body">
+                 <form name="regForm" ng-submit="register.regUser(regData, regForm.$valid, confirmed);" enctype="multipart/form-data" novalidate>
+                   <div class="md-form form-sm">
+                      <div ng-class="{ 'has-success':(regForm.firstName.$valid && !regForm.firstName.$pristine), 'has-error':(!regForm.firstName.$valid && !regForm.firstName.$pristine) || (!regForm.firstName.$valid && regForm.$submitted) }">
+                         <!-- First Name Input -->
+                         <i class="fa fa-question-circle prefix"></i>
+                         <input ng-disabled="register.disabled" class="form-control" type="text" name="firstName" id="fname" ng-model="register.regData.firstName" ng-pattern="/^[a-zA-Z\s]+$/" ng-minlength="3" ng-maxlength="20" required>
+                           <label for="fname">First Name:</label>
+                         <!-- First Name Validation -->
+                         <p class="help-block" ng-show="(!regForm.firstName.$pristine && regForm.firstName.$error.required) || (regForm.$submitted && regForm.firstName.$error.required)" style="color: red; font-size: 11px; font-family: Courier New;">This field is required</p>
+                         <ul ng-show="(!regForm.firstName.$pristine && regForm.firstName.$error.pattern) || (!regForm.firstName.$pristine && regForm.firstName.$error.minlength) || (!regForm.firstName.$pristine && regForm.firstName.$error.maxlength)"
+                         class="help-block" style="color: red; font-size: 11px; font-family: Courier New;">
+                             <li>Must have a space in between first and last name</li>
+                             <li>Must not contain any special characters</li>
+                             <li>Must not contain any numbers</li>
+                             <li>Must be at least 3 characters but no more than 20</li>
+                         </ul>
+                     </div>
+                  </div>
+                  <div class="md-form form-sm">
+                     <div ng-class="{ 'has-success':(regForm.lastName.$valid && !regForm.lastName.$pristine), 'has-error':(!regForm.lastName.$valid && !regForm.lastName.$pristine) || (!regForm.lastName.$valid && regForm.$submitted) }">
+                         <!-- Last Name Input -->
+                         <i class="fa fa-question-circle prefix"></i>
+                         <input ng-disabled="register.disabled" class="form-control" type="text" name="lastName" id="lname" ng-model="register.regData.lastName" ng-pattern="/^[a-zA-Z\s]+$/" ng-minlength="3" ng-maxlength="20" required>
+                         <label for="lname">Last Name:</label>
+                         <!-- Last Name Validation -->
+                         <p class="help-block" ng-show="(!regForm.lastName.$pristine && regForm.lastName.$error.required) || (regForm.$submitted && regForm.lastName.$error.required)" style="color: red; font-size: 11px; font-family: Courier New;">This field is required</p>
+                         <ul ng-show="(!regForm.lastName.$pristine && regForm.lastName.$error.pattern) || (!regForm.lastName.$pristine && regForm.lastName.$error.minlength) || (!regForm.lastName.$pristine && regForm.lastName.$error.maxlength)" class="help-block" style="color: red; font-size: 11px; font-family: Courier New;">
+                             <li>Must have a space in between first and last name</li>
+                             <li>Must not contain any special characters</li>
+                             <li>Must not contain any numbers</li>
+                             <li>Must be at least 3 characters but no more than 20</li>
+                         </ul>
+                     </div>
+                  </div>
+                  <div class="md-form form-sm">
+                     <!-- Email Div -->
+                     <div ng-class="{ 'has-success':(regForm.police_email.$valid && !regForm.police_email.$pristine && !register.emailInvalid), 'has-error':(!regForm.police_email.$valid && !regForm.police_email.$pristine) || (!regForm.police_email.$valid && regForm.$submitted) || register.emailInvalid }">
+                         <!-- Email Input -->
+                         <i class="fa fa-envelope-square prefix"></i>
+                         <input ng-disabled="register.disabled" class="form-control" id="emailLabel" type="text" name="police_email" ng-model="register.regData.police_email" ng-minlength="3" ng-maxlength="40" ng-pattern="/^(\w+)([\-+.\'0-9A-Za-z_]+)*@(\w[\-\w]*\.){1,5}([A-Za-z]){2,6}$/" ng-blur="register.checkEmail(regData);" required>
+                         <label for="emailLabel">Email:</label>
+                         <!-- Email Validation -->
+                         <p class="help-block" ng-show="(!regForm.police_email.$pristine && regForm.police_email.$error.required) || (regForm.$submitted && regForm.police_email.$error.required)" style="color: red; font-size: 11px; font-family: Courier New;">This field is required</p>
+                         <span ng-show="register.checkingEmail && regForm.police_email.$valid" class="glyphicon glyphicon-repeat"></span>
+                         <p class="help-block" ng-show="register.emailMsg && !regForm.police_email.$error.required && regForm.police_email.$valid" style="color: green; font-size: 11px; font-family: Courier New;">{{ register.emailMsg }}</p>
+                         <ul ng-show="(!regForm.police_email.$pristine && regForm.police_email.$error.pattern) || (!regForm.police_email.$pristine && regForm.police_email.$error.minlength) || (!regForm.police_email.$pristine && regForm.police_email.$error.maxlength)" class="help-block" style="color: red; font-size: 11px; font-family: Courier New;">
+                             <li>Must contain "@"</li>
+                             <li>Must not contain any special characters</li>
+                             <li>Must be at least 3 characters but no more than 25</li>
+                         </ul>
+                     </div>
+                   </div>
+                  <div class="md-form form-sm">
+                     <!-- Username Div -->
+                     <div ng-class="{ 'has-success':(regForm.police_username.$valid && !regForm.police_username.$pristine && !register.usernameInvalid), 'has-error':(!regForm.police_username.$valid && !regForm.police_username.$pristine) || (!regForm.police_username.$valid && regForm.$submitted) || register.usernameInvalid }">
+                         <!-- Username Input -->
+                         <i class="fa fa-user prefix"></i>
+                         <input ng-disabled="register.disabled" class="form-control" id="uname" type="text" name="police_username" ng-model="register.regData.police_username" ng-minlength="3" ng-maxlength="25" ng-pattern="/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/" ng-blur="register.checkUsername(regData);" required>
+                         <label for="uname">Username:</label>
+                         <!-- Username Validation -->
+                         <p class="help-block" ng-show="(!regForm.police_username.$pristine && regForm.police_username.$error.required) || (regForm.$submitted && regForm.police_username.$error.required)" style="color: red; font-size: 11px; font-family: Courier New;">This field is required</p>
+                         <span ng-show="register.checkingUsername && regForm.police_username.$valid" class="glyphicon glyphicon-repeat"></span>
+                         <p class="help-block" ng-show="register.usernameMsg && !regForm.police_username.$error.required && regForm.police_username.$valid" style="color: green; font-size: 11px; font-family: Courier New;">{{ register.usernameMsg }}</p>
+                         <ul ng-show="(!regForm.police_username.$pristine && regForm.police_username.$error.pattern) || (!regForm.police_username.$pristine && regForm.police_username.$error.minlength) || (!regForm.police_username.$pristine && regForm.police_username.$error.maxlength)" class="help-block" style="color: red; font-size: 11px; font-family: Courier New;">
+                             <li>Usernames can consist of lowercase and capitals</li>
+                             <li>Usernames can consist of alphanumeric characters</li>
+                             <li>Usernames can consist of underscore and hyphens and spaces</li>
+                             <li>Cannot be two underscores, two hypens or two spaces in a row</li>
+                             <li>Cannot have a underscore, hypen or space at the start or end</li>
+                             <li>Must be at least 3 characters but no more than 25</li>
+                         </ul>
+                     </div>
+                  </div>
+                  <div class="md-form form-sm">
+                    <!-- Password Div -->
+                     <div ng-class="{ 'has-success':(regForm.firstPassword.$valid && !regForm.firstPassword.$pristine), 'has-error':(!regForm.firstPassword.$valid && !regForm.firstPassword.$pristine) || (!regForm.firstPassword.$valid && regForm.$submitted) }">
+                         <!-- Password Input -->
+                         <i class="fa fa-lock prefix"></i>
+                         <input ng-disabled="register.disabled" class="form-control" type="password" name="firstPassword" id="pass" ng-model="firstPassword" ng-minlength="8" ng-maxlength="35" ng-pattern="/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/" required>
+                         <label for="pass">Password:</label>
+                         <!-- Password Validation -->
+                         <p class="help-block" ng-show="(!regForm.firstPassword.$pristine && regForm.firstPassword.$error.required) || (regForm.$submitted && regForm.firstPassword.$error.required)">This field is required</p>
+                         <ul ng-show="(!regForm.firstPassword.$pristine && regForm.firstPassword.$error.pattern) || (!regForm.firstPassword.$pristine && regForm.firstPassword.$error.minlength) || (!regForm.firstPassword.$pristine && regForm.firstPassword.$error.maxlength)" class="help-block" style="color: red; font-size: 11px; font-family: Courier New;">
+                             <li>Must contain at least one upper case letter</li>
+                             <li>Must contain at least one lower case letter</li>
+                             <li>Must contain at least one number</li>
+                             <li>Must contain at least one special character</li>
+                             <li>Must contain at least 8 characters but no more than 35</li>
+                         </ul>
+                     </div>
+                          <!-- Password Div -->
+                    </div>
+                    <div class="md-form form-sm">
+                       <!-- Confirm Password Div -->
+                       <div ng-class="{ 'has-success':confirmed && !regForm.confirmPassword.$error.required, 'has-error':(!confirmed && !regForm.confirmPassword.$error.required) || (regForm.confirmPassword.$error.required && !regForm.confirmPassword.$pristine) || (regForm.$submitted && regForm.confirmPassword.$error.required) }">
+                           <!-- Confirm Password Input -->
+                            <i class="fa fa-lock prefix"></i>
+                           <input ng-disabled="register.disabled" class="form-control" type="password" id="cpass" name="confirmPassword" match="{{[firstPassword]}}" ng-change="register.regData.police_password = confirm" ng-model="confirm" required>
+                           <!-- Confirm Password Validation -->
+                            <label for="cpass">Confirm Password:</label>
+                           <p class="help-block" ng-show="(!regForm.confirmPassword.$pristine && regForm.confirmPassword.$error.required) || (regForm.$submitted && regForm.confirmPassword.$error.required)" style="color: red; font-size: 11px; font-family: Courier New;">This field is required</p>
+                           <p class="help-block" ng-show="!confirmed && !regForm.confirmPassword.$pristine && regForm.firstPassword.$valid" style="color: red; font-size: 11px; font-family: Courier New;">Passwords do not match</p>
+                       </div>
+                       <!-- Confirm Password Div -->
+                     </div>
+                     <div class="md-form form-sm">
+                        <div ng-class="{ 'has-success':(regForm.police_contact.$valid && !regForm.police_contact.$pristine), 'has-error':(!regForm.police_contact.$valid && !regForm.police_contact.$pristine) || (!regForm.police_contact.$valid && regForm.$submitted) }">
+                            <!-- Contact Number Input -->
+                            <i class="fa fa-question-circle prefix"></i>
+                            <input ng-disabled="register.disabled" class="form-control" type="text" name="police_contact" id="contactNum" ng-model="register.regData.police_contact" ng-pattern="/^(09|\+639)\d{9}$/" required>
+                            <label for="contactNum">Contact Number:</label>
+                            <!-- Contact Number Validation -->
+                            <p class="help-block" ng-show="(!regForm.police_contact.$pristine && regForm.police_contact.$error.required) || (regForm.$submitted && regForm.police_contact.$error.required)" style="color: red; font-size: 11px; font-family: Courier New;">This field is required</p>
+                            <ul ng-show="(!regForm.police_contact.$pristine && regForm.police_contact.$error.pattern) || (!regForm.police_contact.$pristine && regForm.police_contact.$error.minlength) || (!regForm.police_contact.$pristine && regForm.police_contact.$error.maxlength)" class="help-block" style="color: red; font-size: 11px; font-family: Courier New;">
+                                <li>Must be a valid ph number</li>
+                                <li>Must not contain any special characters or spaces</li>
+                                <li>Must be 11 numbers (09xxxxxxxxx/ +639xxxxxxxxx)</li>
+                            </ul>
+                        </div>
+                     </div>
+                     <div class="md-form form-sm">
+                      <div>
+                        <!-- Police Address Input -->
+                        <i class="fa fa-question-circle prefix"></i>
+                        <input ng-disabled="register.disabled" class="form-control" type="text" name="police_address" id="address" ng-model="register.regData.police_address">
+                        <label for="address">Police Address:</label>
+                      </div>
+                     </div>
+                    <div class="md-form form-sm">
+                     <!-- Gender Input -->
+                    <input name="police_gender" ng-model="register.regData.police_gender" type="radio" value="Male" class="with-gap" id="male">
+                    <label for="male">Male</label>
+                    <input name="police_gender" ng-model="register.regData.police_gender" type="radio" value="Female" class="with-gap" id="female">
+                    <label for="female">Female</label>
+                   </div>
+                   <div class="md-form form-sm">
+                    <!-- Police Stations Input -->
+                    <select name="police_station" ng-model="register.regData.police_station" class="browser-default">
+                     <option value="" ng-show="management.disabledOption" disabled selected>Police Station</option>
+                     <option value="Agno" ng-show="management.Agno">Agno</option>
+                     <option value="Aguilar" ng-show="management.Aguilar">Aguilar</option>
+                     <option value="Alcala" ng-show="management.Alcala">Alcala</option>
+                     <option value="Anda" ng-show="management.Anda">Anda</option>
+                     <option value="Asingan" ng-show="management.Asingan">Asingan</option>
+                     <option value="Balungao" ng-show="management.Balungao">Balungao</option>
+                     <option value="Bani" ng-show="management.Bani">Bani</option>
+                     <option value="Basista" ng-show="management.Basista">Basista</option>
+                     <option value="Bautista" ng-show="management.Bautista">Bautista</option>
+                     <option value="Bayambang" ng-show="management.Bayambang">Bayambang</option>
+                     <option value="Binalonan" ng-show="management.Binalonan">Binalonan</option>
+                     <option value="Binmaley" ng-show="management.Binmaley">Binmaley</option>
+                     <option value="Bolinao" ng-show="management.Bolinao">Bolinao</option>
+                     <option value="Bugallon" ng-show="management.Bugallon">Bugallon</option>
+                     <option value="Burgos" ng-show="management.Burgos">Burgos</option>
+                     <option value="Calasiao" ng-show="management.Calasiao">Calasiao</option>
+                     <option value="Dasol" ng-show="management.Dasol">Dasol</option>
+                     <option value="Infanta" ng-show="management.Infanta">Infanta</option>
+                     <option value="Labrador" ng-show="management.Labrador">Labrador</option>
+                     <option value="Laoac" ng-show="management.Laoac">Laoac</option>
+                     <option value="Lingayen" ng-show="management.Lingayen">Lingayen</option>
+                     <option value="Mabini" ng-show="management.Mabini">Mabini</option>
+                     <option value="Malasiqui" ng-show="management.Malasiqui">Malasiqui</option>
+                     <option value="Manaoag" ng-show="management.Manaoag">Manaoag</option>
+                     <option value="Mangaldan" ng-show="management.Mangaldan">Mangaldan</option>
+                     <option value="Mangatarem" ng-show="management.Mangatarem">Mangatarem</option>
+                     <option value="Mapandan" ng-show="management.Mapandan">Mapandan</option>
+                     <option value="Natividad" ng-show="management.Natividad">Natividad</option>
+                     <option value="Pozorrubio" ng-show="management.Pozorrubio">Pozorrubio</option>
+                     <option value="Rosales" ng-show="management.Rosales">Rosales</option>
+                     <option value="SanFabian" ng-show="management.SanFabian">San Fabian</option>
+                     <option value="SanJacinto" ng-show="management.SanJacinto">San Jacinto</option>
+                     <option value="SanManuel" ng-show="management.SanManuel">San Manuel</option>
+                     <option value="SanNicolas" ng-show="management.SanNicolas">San Nicolas</option>
+                     <option value="SanQuintin" ng-show="management.SanQuintin">San Quintin</option>
+                     <option value="SantaBarbara" ng-show="management.SantaBarbara">Santa Barbara</option>
+                     <option value="SantaMaria" ng-show="management.SantaMaria">Santa Maria</option>
+                     <option value="SantoTomas" ng-show="management.SantoTomas">Santo Tomas</option>
+                     <option value="Sison" ng-show="management.Sison">Sison</option>
+                     <option value="Sual" ng-show="management.Sual">Sual</option>
+                     <option value="Tayug" ng-show="management.Tayug">Tayug</option>
+                     <option value="Umingan" ng-show="management.Umingan">Umingan</option>
+                     <option value="Urbiztondo" ng-show="management.Urbiztondo">Urbiztondo</option>
+                     <option value="Villasis" ng-show="management.Villasis">Villasis</option>
+                    </select><br>
+                    <select name="police_rank" ng-model="register.regData.police_rank"  class="browser-default">
+                      <option value="" disabled selected>Police Rank</option>
+                      <option value="PO1">PO1</option>
+                      <option value="PO2">PO2</option>
+                      <option value="PO3">PO3</option>
+                      <option value="SPO1">SPO1</option>
+                      <option value="SPO2">SPO2</option>
+                      <option value="SPO3">SPO3</option>
+                      <option value="SPO4">SPO4</option>
+                    </select><br>
+                    <select name="police_permission" ng-model="register.regData.police_permission" ng-show="management.permissionAccess" class="browser-default">
+                      <option value="" disabled selected>Police Permission</option>
+                      <option value="user" ng-show="management.userAccess">Android User</option>
+                      <option value="station" ng-show="management.stationAccess">Station Admin</option>
+                      <option value="main" ng-show="management.mainAccess">Main Admin</option>
+                    </select>
+                  </div>
+                  <div class="show-hide-message center-block" ng-show="register.successMsg">
+                    <div class="alert alert-success center-block">{{register.successMsg}}</div>
+                    </div>
+                  <div class="show-hide-message center-block" ng-show="register.errorsMsg">
+                    <div class="alert alert-danger">{{ register.errorMsg }}</div>
+                  </div>
+                 <div class="clearfix"></div>
+                 <div class="col-lg-12 text-left">
+                     <div id="success"></div>
+                     <div align="center">
+                       <!-- Login Button -->
+                       <button type="submit" class="btn btn-md btn-elegant">REGISTER POLICE</button>
+                    </div>
+                 </div>
+            </form>
+          </div>
+          </div>
+           <!--/.Content-->
+       </div>
+    </div>
+  <!--alert-->
+  <div class= "jumbotron text-center" ng-show="main.loading">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Loading....</p>
+  </div>
+
+  <div class="show-hide-message center-block" ng-show="management.showMoreError">
+    <div class="alert alert-danger center-block">{{ management.showMoreError}}</div>
+  </div>
+  <div class="md-form" ng-show="searchFilter !== undefined">
+    <p><strong>Total results: </strong>{{ (management.police_users | filter: searchFilter).length }} &nbsp; &nbsp;<strong>Showing: </strong>{{ (management.police_users | filter: searchFilter | limitTo: management.limit).length  }}</p>
+  </div>
+  <!-- Table Management -->
+	<table class="table table-hover table-bordered table-sm">
+  <thead  class="yellow lighten-4">
+		<tr>
+			<th><b>Name</b></th>
+			<th><b>Email</b></th>
+      <th><b>Username</b></th>
+      <th><b>Contact</b></th>
+      <th><b>Address</b></th>
+      <th><b>Station</b></th>
+      <th><b>Permission</b></th>
+      <th><b>Created</b></th>
+      <th><b>Updated</b></th>
+			<th><b>EDIT</b></th>
+      <th><b>DELETE</b></th>
+		</tr>
+	</thead>
+		<tr ng-repeat = "person in management.police_users | filter: searchFilter | orderBy: 'createdAt': true " ng-class-odd ="'odd'" ng-class-even="'even'">
+			<td>{{ person.police_name }}</td>
+			<td>{{ person.police_email }}</td>
+      <td>{{ person.police_username }}</td>
+      <td>{{ person.police_contact }}</td>
+      <td>{{ person.police_address}}</td>
+      <td style="color: blue;">{{ person.police_station }}</td>
+      <td style="color: red;">{{ person.police_permission }}</td>
+      <td>{{ person.police_createdAt | date:"MMM d, y '-' h: mma " }}</td>
+      <td>{{ person.police_updatedAt | date:"MMM d, y '-' h: mma "}}</td><hr>
+			<td>
+				<a href="/edit/{{ person._id }}">
+					<button type="button" ng-show="management.editAccess" class="btn btn-red btn-sm">Edit</button>
+				</a>
+      </td>
+      <td>
+				<a href="#">
+          <button type="button" class="btn btn-elegant btn-sm" ng-show="management.deleteUserAccess" data-toggle="modal" data-target="#modalDelete">Delete</button>
+          <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog cascading-modal" role="document">
+               <!--Content-->
+                <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header blue-grey darken-3 white-text">
+                    <h4 class="title"><i class="fa fa-trash"></i> DELETE</h4>
+                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-0">
+                  <div class="md-form form-sm">
+                    <h6>Are you sure you want to delete this?</h6>
+                  </div>
+                  <div class="text-center mt-1-half">
+                        <button class="btn btn-info mb-1 btn-red btn-sm" ng-click="management.deleteUser(person.police_username);" onclick="javascript:window.location.reload()">Yes</button>
+                        <button data-dismiss="modal" class="btn btn-info mb-1 btn-grey btn-sm">No</button>
+                  </div>
+                </div>
+              </div>
+              </div>
+          </div>
+				</a>
+			</td>
+		</tr>
+	</table>
+  <!-- Table Management -->
+</div>
